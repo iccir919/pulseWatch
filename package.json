@@ -4,7 +4,7 @@
   "description": "Historical Fitbit heart rate data visualizer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/iccir919/pulseWatch/issues"
   },
-  "homepage": "https://github.com/iccir919/pulseWatch#readme"
+  "homepage": "https://github.com/iccir919/pulseWatch#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "redis": "^2.8.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  }
 }
