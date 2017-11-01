@@ -1,0 +1,25 @@
+{
+  "name": "pulsewatch",
+  "version": "1.0.0",
+  "description": "Historical Fitbit heart rate data visualizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iccir919/pulseWatch.git"
+  },
+  "keywords": [
+    "Fitbit",
+    "heart",
+    "rate",
+    "data"
+  ],
+  "author": "Neil Ricci",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iccir919/pulseWatch/issues"
+  },
+  "homepage": "https://github.com/iccir919/pulseWatch#readme"
+}
