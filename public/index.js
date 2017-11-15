@@ -1,43 +1,92 @@
-(function() {
+var user_id;
+var access_token;
 
-    window.onJSClientLoad = function() {
-        window.setTimeout(checkAuth, 1);
-    };
+$(function () {
+    access_token = getAccessToken();
+    user_id = getUserId();
+    
+    if(access_token && user_id) {
+        // Authorization was successful. Hide authorization prompts and show
+        // content that should be visible after authorization succeeds.
+        $('.pre-auth').hide();
+        $('.post-auth').show();
 
-    function checkAuth() {
-          handleAuthResult(false);
+    } else {
+      // Authorization was unsuccessful. Show content related to prompting for
+      // authorization and hide content that should be visible if authorization
+      // succeeds.
+      $('.post-auth').hide();
+      $('.pre-auth').show();        
+    }
+});
+
+function handleDateFormSubmit(){
+    var startDate = document.getElementById("start_date").value;
+    var endDate = document.getElementById("end_date").value;
+
+    getUserHeartRateData(startDate, endDate);
+}
+
+function getUserHeartRateData(startDate, endDate){
+    var header = new Headers()
+    header.append("Authorization", "Bearer " + access_token);
+    var init = {
+        headers: header
     }
 
-    // Handle the result of a gapi.auth.authorize() call.
-    function handleAuthResult(param) {
-        if (param) {
-            // Authorization was successful. Hide authorization prompts and show
-            // content that should be visible after authorization succeeds.
-            $('.pre-auth').hide();
-            $('.post-auth').show();
+    fetch(createFitbitRequest(startDate, endDate), init).then(function(heartRateData) {
+        return heartRateData.json();
+      }).then(function(heartRateData) {
+          heartRateData = heartRateData["activities-heart"];
+          
+          var dataWithRestingRate = returnDataWithRestingRate(heartRateData);
 
+          graphFitbitData(dataWithRestingRate);
+      });
+}
 
-        } else {
-            // Authorization was unsuccessful. Show content related to prompting for
-            // authorization and hide content that should be visible if authorization
-            // succeeds.
-            $('.post-auth').hide();
-            $('.pre-auth').show();
+function returnDataWithRestingRate(heartRateData){
+    return heartRateData.filter(function(dailyData){
+        return dailyData.value.restingHeartRate
+    })
+}
 
-            // Make the #login-link clickable. Attempt a non-immediate OAuth 2.0
-            // client flow. The current function is called when that flow completes.
+function graphFitbitData(heartRateDataArray) {
+    var xValues = [];
+    var yValues = [];
+
+    heartRateDataArray.forEach(function(data){
+        xValues.push(data.dateTime);
+        yValues.push(data.value.restingHeartRate);
+    })
+
+    var data = [
+        {
+            x: xValues,
+            y: yValues,
+            type: 'scatter',
+            line: {color: '#17BECF'}
         }
-    }
+    ];
 
-    // This helper method displays a message on the page.
-    function displayMessage(message) {
-        $('#message').text(message).show();
-    }
+    Plotly.newPlot('chart', data);
+}
 
-    // This helper method hides a previously displayed message on the page.
-    function hideMessage() {
-        $('#message').hide();
-    }
- 
+function createFitbitRequest(startDate, endDate) {
+        return "https://api.fitbit.com/1/user/" + user_id + "/activities/heart/date/"
+        + startDate + "/" + endDate + ".json";
+}
 
-}());
+function getParameterByName(name) {
+    var match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+  
+function getAccessToken() {
+    return getParameterByName('access_token');
+}
+  
+function getUserId() {
+    return getParameterByName('user_id');
+}
+

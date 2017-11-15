@@ -1,6 +1,31 @@
 body {
     font-family: Helvetica, sans-serif;
-  }
+}
+
+#container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#login-container {
+    margin-top: 7rem;
+    text-align: center;
+}
+
+h3 {
+    padding-bottom: 15px;
+}
+
+#login-container a {
+    background-color: #FA8072;
+    color: white;
+    padding: 1rem;
+    border: 2px solid #FF6347;
+}
+
+#date_selection_form {
+    text-align: center;
+}
   
 .pre-auth {
     display: none;
@@ -11,18 +36,30 @@ body {
 }
 
 #chart {
-    width: 500px;
+    width: 700px;
     height: 300px;
-    margin-bottom: 1em;
+    margin: 1rem auto;
 }
 
-#video-list {
-    padding-left: 1em;
-    list-style-type: none;
+#start_date {
+    margin-bottom: 10px;
 }
-#video-list > li {
-    cursor: pointer;
+
+#submit_button {
+    background-color: #17BECF; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
-#video-list > li:hover {
-    color: blue;
+
+.start_font {
+    color: #4CAF50;
+}
+
+.end_font {
+    color: #f44336;
 }

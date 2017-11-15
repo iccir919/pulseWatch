@@ -1,19 +1,29 @@
 <html>
-<head>
-  <title>Pulse Watch</title>
-  <link type="text/css" rel="stylesheet" href="index.css">
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="//www.google.com/jsapi"></script>
-  <script type="text/javascript" src="index.js"></script>
-  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=onJSClientLoad"></script>
-</head>
-<body>
-  <div id="login-container" class="pre-auth">This application requires access to your Fitbit account.
-    Please <a href="/fitbit" id="login-link">authorize</a> to continue.
-  </div>
-  <div class="post-auth">
-    <div id="message"></div>
-    <div id="chart"></div>
-  </div>
-</body>
+  <head>
+    <title>Pulse Watch</title>
+    <link type="text/css" rel="stylesheet" href="index.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="login-container" class="pre-auth">
+          <h1>Pulse Watch</h1>
+          <h3>This application requires access to your Fitbit account.</h3>
+          <a href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJTT&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&scope=heartrate%20profile&expires_in=604800" id="login-link">Authorize To Continue</a>
+        </div>
+        <div class="post-auth">
+          <form id="date_selection_form">
+              <h2>Historical Fitbit Resting Heart Rate Data Visualizer</h2>
+              Enter a <span class="start_font">start</span> date:
+              <input type="date" id="start_date" name="start"><br>
+              Enter a <span class="end_font">end</span> date:
+              <input type="date" id="end_date" name="end"><br>
+              <input id="submit_button" onclick="handleDateFormSubmit()" type="button" value="Show Me Heart Rate Data">
+          </form>
+          <div id="chart"></div>
+        </div>
+    </div>
+  </body>
 </html>
