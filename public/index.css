@@ -21,14 +21,19 @@ h3 {
     color: white;
     padding: 1rem;
     border: 2px solid #FF6347;
+    text-decoration: none;
 }
 
 #date_selection_form {
     text-align: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
 }
   
 .pre-auth {
     display: none;
+    border: 2px solid #17BECF;
+    padding-bottom: 50px;
 }
 
 .post-auth {
@@ -41,11 +46,8 @@ h3 {
     margin: 1rem auto;
 }
 
-#start_date {
-    margin-bottom: 10px;
-}
-
 #submit_button {
+    margin-top: 10px;
     background-color: #17BECF; 
     border: none;
     color: white;
@@ -56,10 +58,34 @@ h3 {
     font-size: 16px;
 }
 
+#resting_rate_visualization {
+    display: none;
+    text-align: center;
+}
+
+#download {
+    display: none;
+    text-align: center;
+}
+
+#download_button {
+    display: block;
+    margin: auto;
+    background-color: #00cc00; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;  
+}
+
 .start_font {
     color: #4CAF50;
+    font-weight: bold;
 }
 
 .end_font {
     color: #f44336;
+    font-weight: bold;
 }

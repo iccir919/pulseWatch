@@ -14,28 +14,44 @@
     <link type="text/css" rel="stylesheet" href="index.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script type="text/javascript" src="index.js"></script>
   </head>
   <body>
     <div id="container">
       <div id="login-container" class="pre-auth">
           <h1>Pulse Watch</h1>
+          <h5>
+            A way to export your Fitbit Heart Rate data for any period of time <br />
+            Additionally will provide a graph of your resting heart rate. 
+          </h5>
           <h3>
             This application requires access to your Fitbit account.<br/>
-            Then you can see your historic heart rate data visualized!
           </h3>
           <a href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJTT&redirect_uri=http%3A%2F%2Flocalhost%3A3000&scope=heartrate%20profile&expires_in=604800" id="login-link">Authorize To Continue</a>
         </div>
         <div class="post-auth">
           <form id="date_selection_form">
-              <h2>Historical Fitbit Resting Heart Rate Data Visualizer</h2>
-              Enter a <span class="start_font">start</span> date:
-              <input type="date" id="start_date" name="start"><br>
-              Enter a <span class="end_font">end</span> date:
-              <input type="date" id="end_date" name="end"><br>
-              <input id="submit_button" onclick="handleDateFormSubmit()" type="button" value="Show Me Heart Rate Data">
+            <div class="w3-row-padding">
+              <div class="w3-half">
+                <label><span class="start_font"> Start</span> Date</label>
+                <input type="date" id="start_date" name="start"><br>
+              </div>
+              <div class="w3-half">
+                <label><span class="end_font">End</span> Date</label>
+                <input type="date" id="end_date" name="end"><br>
+              </div>
+            </div>
+            <input id="submit_button" onclick="handleDateFormSubmit()" type="button" value="Fetch My Heart Rate Data">
           </form>
-          <div id="chart"></div>
+          <div id="resting_rate_visualization">
+            <h4>Resting heart rate date visualization</h4>
+            <div id="chart"></div>
+          </div>
+          <div id="download">
+              <a id="download_button">Download</a>
+              <p>Includes resting heart rate and for all Fitbit heart rate zones: out of range, fat burn, cardio, and peak.</p>
+          </div>
         </div>
     </div>
   </body>

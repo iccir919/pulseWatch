@@ -87,14 +87,14 @@ function exportCSVFile(array) {
 
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 
-    var link = document.createElement("a");
-    link.innerHTML = "Download"
+    var link = document.getElementById("download_button");
+    link.innerHTML = "Download";
     if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
         var url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
         link.setAttribute("download", exportedFilenmae);
-        document.body.appendChild(link);
+        $('#download').show();  
     }
 }
 
@@ -121,8 +121,8 @@ function graphFitbitData(heartRateDataArray) {
             line: {color: '#17BECF'}
         }
     ];
-
     Plotly.newPlot('chart', data);
+    $('#resting_rate_visualization').show();  
 }
 
 function createFitbitRequest(startDate, endDate) {
