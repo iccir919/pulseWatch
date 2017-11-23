@@ -1,5 +1,6 @@
 var user_id;
 var access_token;
+var userHeartRateData;;
 
 $(function () {
     access_token = getAccessToken();
@@ -37,12 +38,64 @@ function getUserHeartRateData(startDate, endDate){
     fetch(createFitbitRequest(startDate, endDate), init).then(function(heartRateData) {
         return heartRateData.json();
       }).then(function(heartRateData) {
-          heartRateData = heartRateData["activities-heart"];
-          
-          var dataWithRestingRate = returnDataWithRestingRate(heartRateData);
+          userHeartRateData = heartRateData["activities-heart"];
+
+          exportCSVFile(userHeartRateData);
+
+          var dataWithRestingRate = returnDataWithRestingRate(userHeartRateData);
 
           graphFitbitData(dataWithRestingRate);
       });
+}
+
+function convertToCSV(array) {
+    var str = 'Date, Out of Range Calories Out, Out of Range Max, Out of Range Min, Out of Range Minutes,' +
+    'Fat Burn Calories Out, Fat Burn Max, Fat Burn Min, Fat Burn Minutes,' + 
+    'Cardio Calories Out, Cardio Max, Cardio Min, Cardio Minutes,' + 
+    'Peak Calories Out, Peak Max, Peak Min, Peak Minutes, Resting Heart Rate' + '\r\n';
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+
+        line += array[i].dateTime;
+        line += ',';
+
+        array[i].value.heartRateZones.forEach(function(zone){
+            for(var dataItem in zone){
+                if(dataItem !== "name"){
+                    line += zone[dataItem];
+                    line += ',';
+                }
+            }
+        })
+        
+        line += array[i].value.restingHeartRate;
+
+        str += line + '\r\n';
+    }
+
+    return str;
+}
+
+
+
+function exportCSVFile(array) {
+
+    var csv = this.convertToCSV(array);
+
+    var exportedFilenmae = 'export.csv';
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+    var link = document.createElement("a");
+    link.innerHTML = "Download"
+    if (link.download !== undefined) { // feature detection
+        // Browsers that support HTML5 download attribute
+        var url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", exportedFilenmae);
+        document.body.appendChild(link);
+    }
 }
 
 function returnDataWithRestingRate(heartRateData){
