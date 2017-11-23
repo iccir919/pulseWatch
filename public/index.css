@@ -29,6 +29,12 @@ h3 {
     margin-top: 20px;
     padding-bottom: 20px;
 }
+
+#container {
+    margin-top: 10px;
+    border: 2px solid #17BECF;
+    margin-bottom: 20px;
+}
   
 .pre-auth {
     display: none;
@@ -66,6 +72,8 @@ h3 {
 #download {
     display: none;
     text-align: center;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 #download_button {
