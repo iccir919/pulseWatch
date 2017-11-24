@@ -47,14 +47,14 @@
             </div>
             <input id="submit_button" onclick="handleDateFormSubmit()" type="button" value="Fetch My Heart Rate Data">
           </form>
+          <div id="download">
+            <p>Click the green button below for a .csv file that includes your daily data categorized by Fitbit into four heart 
+              rate zones: out of range, fat burn, cardio, and peak. Resting heart rate included. Custom heart rate zones are not.</p>
+            <a id="download_button">Download All Heart Rate Data</a>
+        </div>
           <div id="resting_rate_visualization">
             <h4>Resting heart rate date visualization</h4>
             <div id="chart"></div>
-          </div>
-          <div id="download">
-              <a id="download_button">Download</a>
-              <p>Exports a .csv file that includes resting heart rate data (an average calculated by Fitbit), visualized above, 
-                and daily data seperated by Fitbit into four heart rate zones: out of range, fat burn, cardio, and peak.</p>
           </div>
         </div>
     </div>
