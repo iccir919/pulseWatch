@@ -1,5 +1,7 @@
 body {
     font-family: Helvetica, sans-serif;
+    background-color: #787878;
+    text-align: center;
 }
 
 #container {
