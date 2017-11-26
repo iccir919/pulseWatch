@@ -88,12 +88,12 @@ body {
     width: 700px;
     height: 300px;
     margin-top: 1rem;
-    padding-bottom: 80px;
+    padding-bottom: 1rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-footer {
+#pre-auth-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
