@@ -1,6 +1,9 @@
 var user_id;
 var access_token;
-var userHeartRateData;;
+var userHeartRateData;
+var start_date;
+var end_date;
+
 
 $(function () {
     access_token = getAccessToken();
@@ -9,23 +12,20 @@ $(function () {
     if(access_token && user_id) {
         // Authorization was successful. Hide authorization prompts and show
         // content that should be visible after authorization succeeds.
-        $('.pre-auth').hide();
-        $('.post-auth').show();
+        $('.pre-auth').addClass('hidden');
+        $('.post-auth').removeClass('hidden');
 
     } else {
       // Authorization was unsuccessful. Show content related to prompting for
       // authorization and hide content that should be visible if authorization
       // succeeds.
-      $('.post-auth').hide();
-      $('.pre-auth').show();        
+      $('.post-auth').addClass('hidden');
+      $('.pre-auth').removeClass('hidden');    
     }
 });
 
 function handleDateFormSubmit(){
-    var startDate = document.getElementById("start_date").value;
-    var endDate = document.getElementById("end_date").value;
-
-    getUserHeartRateData(startDate, endDate);
+    getUserHeartRateData(start_date, end_date);
 }
 
 function getUserHeartRateData(startDate, endDate){
@@ -87,14 +87,14 @@ function exportCSVFile(array) {
 
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 
-    var link = document.getElementById("download_button");
-    link.innerHTML = "Download";
+    var link = document.getElementById("download-link");
     if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
         var url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
         link.setAttribute("download", exportedFilenmae);
-        $('#download').show();  
+        $("#download-section").removeClass('hidden');
+        
     }
 }
 
@@ -122,7 +122,8 @@ function graphFitbitData(heartRateDataArray) {
         }
     ];
     Plotly.newPlot('chart', data);
-    $('#resting_rate_visualization').show();  
+
+    $('#chart-section').removeClass("hidden");  
 }
 
 function createFitbitRequest(startDate, endDate) {
@@ -142,4 +143,44 @@ function getAccessToken() {
 function getUserId() {
     return getParameterByName('user_id');
 }
+
+$(function() {
+    $('#date-range-input').daterangepicker({
+        "ranges": {
+            "Today": [
+                "2017-11-26T16:14:24.358Z",
+                "2017-11-26T16:14:24.358Z"
+            ],
+            "Yesterday": [
+                "2017-11-25T16:14:24.358Z",
+                "2017-11-25T16:14:24.358Z"
+            ],
+            "Last 7 Days": [
+                "2017-11-20T16:14:24.358Z",
+                "2017-11-26T16:14:24.358Z"
+            ],
+            "Last 30 Days": [
+                "2017-10-28T15:14:24.358Z",
+                "2017-11-26T16:14:24.358Z"
+            ],
+            "This Month": [
+                "2017-11-01T07:00:00.000Z",
+                "2017-12-01T07:59:59.999Z"
+            ],
+            "Last Month": [
+                "2017-10-01T07:00:00.000Z",
+                "2017-11-01T06:59:59.999Z"
+            ]
+        },
+        "startDate": "11/20/2017",
+        "endDate": "11/26/2017",
+        "opens": "center",
+        "buttonClasses": "btn btn-md",
+        "applyClass": "btn-primary",
+        "cancelClass": "btn-warning"
+    }, function(start, end, label) {
+        start_date = start.format('YYYY-MM-DD');
+        end_date = end.format('YYYY-MM-DD')
+    });
+});
 
