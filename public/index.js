@@ -113,7 +113,7 @@ function graphFitbitData(heartRateDataArray) {
         yValues.push(data.value.restingHeartRate);
     })
 
-    var data = [
+    var config = [
         {
             x: xValues,
             y: yValues,
@@ -121,7 +121,32 @@ function graphFitbitData(heartRateDataArray) {
             line: {color: '#17BECF'}
         }
     ];
-    Plotly.newPlot('chart', data);
+    Plotly.newPlot('chart', config);
+
+    (function() {
+        var d3 = Plotly.d3;
+        var WIDTH_IN_PERCENT_OF_PARENT = 100,
+            HEIGHT_IN_PERCENT_OF_PARENT = 90;
+        
+        var gd3 = d3.selectAll(".responsive-plot")
+            .style({
+              width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+              'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+              
+              height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+              'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+            });
+      
+        var nodes_to_resize = gd3[0]; //not sure why but the goods are within a nested array
+        window.onresize = function() {
+          for (var i = 0; i < nodes_to_resize.length; i++) {
+            Plotly.Plots.resize(nodes_to_resize[i]);
+          }
+        };
+        Plotly.Plots.resize(nodes_to_resize[0]);
+      })();
+
+
 
     $('#chart-section').removeClass("hidden");  
 }
@@ -146,32 +171,6 @@ function getUserId() {
 
 $(function() {
     $('#date-range-input').daterangepicker({
-        "ranges": {
-            "Today": [
-                "2017-11-26T16:14:24.358Z",
-                "2017-11-26T16:14:24.358Z"
-            ],
-            "Yesterday": [
-                "2017-11-25T16:14:24.358Z",
-                "2017-11-25T16:14:24.358Z"
-            ],
-            "Last 7 Days": [
-                "2017-11-20T16:14:24.358Z",
-                "2017-11-26T16:14:24.358Z"
-            ],
-            "Last 30 Days": [
-                "2017-10-28T15:14:24.358Z",
-                "2017-11-26T16:14:24.358Z"
-            ],
-            "This Month": [
-                "2017-11-01T07:00:00.000Z",
-                "2017-12-01T07:59:59.999Z"
-            ],
-            "Last Month": [
-                "2017-10-01T07:00:00.000Z",
-                "2017-11-01T06:59:59.999Z"
-            ]
-        },
         "startDate": "11/20/2017",
         "endDate": "11/26/2017",
         "opens": "center",

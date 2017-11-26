@@ -39,29 +39,15 @@
   <body>
     <div class="pre-auth">
         <h1 class="display-1">Pulse Watch</h1>
-        <p class="h2">11/26/17: Will be returning by tonight, thank you!</p>
+        <p class="h2">Export your heart rate data</p>
+        <p class="h2">Visualize it for any period</p>
         <hr id="heading-seperator">
-        <!-- <a class="btn btn-primary btn-lg" href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJTT&redirect_uri=https%3A%2F%2Ficcir919.github.io%2FpulseWatch%2Fpublic%2Findex.html&scope=heartrate%20profile&expires_in=604800" role="button">Log In To Fitbit</a>
-        <footer id="pre-auth-footer">
-            <nav class="navbar">
-                <ul class="nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://iccir919.github.io/">By Neil Ricci</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.linkedin.com/in/neil-ricci/"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/iccir919"><i class="fa fa-github"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://twitter.com/realNeilVR"><i class="fa fa-twitter"></i></a>
-                    </li>
-                </ul>
-            </nav>
-        </footer> -->
+        <a class="btn btn-primary btn-lg" href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJTT&redirect_uri=https%3A%2F%2Ficcir919.github.io%2FpulseWatch%2Fpublic%2Findex.html&scope=heartrate%20profile&expires_in=604800
+        " role="button">Log In To Fitbit</a>
     </div>
+
     <div class="hidden post-auth">
+
       <nav class="navbar">
         <h1 class="navbar-brand display-4">Pulse Watch</h1>
       </nav>
@@ -87,31 +73,32 @@
             </button>
             <hr class="post-auth-hr" id="download-seperator">
         </div>
-        <div class="hidden" id="chart-section">
-            <h4>Resting Heart Rate Data Visualization</h4>
-            <div class="responsive-plot" id="chart"></div>
-        </div>
-
       </div>
-      <footer>
-        <nav class="navbar">
-                <ul class="nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://iccir919.github.io/">By Neil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.linkedin.com/in/neil-ricci/"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/iccir919"><i class="fa fa-github"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://twitter.com/realNeilVR"><i class="fa fa-twitter"></i></a>
-                    </li>
-                </ul>
-            </nav>
-        </footer>
+
+       <div id="chart-section" class="container hidden">  
+            <div id="chart" class="responsive-plot"></div>
+        </div>
+            
     </div>
+
+    <footer>
+        <nav class="navbar">
+            <ul class="nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://iccir919.github.io/">By Neil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.linkedin.com/in/neil-ricci/"><i class="fa fa-linkedin"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/iccir919"><i class="fa fa-github"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/realNeilVR"><i class="fa fa-twitter"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>

@@ -1,6 +1,12 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     background-color: #404040;
     font-family: 'Lato', sans-serif;
+    margin-bottom: 50px;
 }
 
 .container {
@@ -79,24 +85,12 @@ body {
     color: #DCDCDC;
 }
 
-#chart-section {
-    text-align: center;
-    color: #DCDCDC;
-}
-
-#chart {
-    width: 700px;
-    height: 300px;
-    margin-top: 1rem;
-    padding-bottom: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#pre-auth-footer {
+footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 70px;
-    line-height: 60px;
-}
+    /* Set the fixed height of the footer here */
+    height: 50px;
+    line-height: 50px; /* Vertically center the text there */
+  }
+  
