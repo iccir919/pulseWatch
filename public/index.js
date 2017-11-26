@@ -118,7 +118,8 @@ function graphFitbitData(heartRateDataArray) {
             x: xValues,
             y: yValues,
             type: 'scatter',
-            line: {color: '#17BECF'}
+            line: {color: '#17BECF'},
+            name: 'Resting Heart Rate'
         }
     ];
     Plotly.newPlot('chart', config);
