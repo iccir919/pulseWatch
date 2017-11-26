@@ -84,6 +84,9 @@ body {
 #download-link {
     text-decoration: none;
     color: #DCDCDC;
+}
+
+#download-button {
     cursor: pointer;
 }
 
