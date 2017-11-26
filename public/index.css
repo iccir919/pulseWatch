@@ -68,6 +68,7 @@ body {
 #date-range-submit {
     color: #DCDCDC;
     margin-top: 5px;
+    cursor: pointer;
 }
 
 .post-auth-hr {
@@ -83,6 +84,7 @@ body {
 #download-link {
     text-decoration: none;
     color: #DCDCDC;
+    cursor: pointer;
 }
 
 #chart-section {
@@ -99,3 +101,4 @@ footer {
     line-height: 50px; /* Vertically center the text there */
 }
   
+
