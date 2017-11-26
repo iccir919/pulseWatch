@@ -85,6 +85,11 @@ body {
     color: #DCDCDC;
 }
 
+#chart-section {
+    color: #DCDCDC;
+    text-align: center;
+}
+
 footer {
     position: absolute;
     bottom: 0;
