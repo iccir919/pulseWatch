@@ -14,6 +14,7 @@ $(function () {
         // content that should be visible after authorization succeeds.
         $('.pre-auth').addClass('hidden');
         $('.post-auth').removeClass('hidden');
+        // getUserInterdayHeartRateData();
 
     } else {
       // Authorization was unsuccessful. Show content related to prompting for
@@ -48,6 +49,20 @@ function getUserHeartRateData(startDate, endDate){
       });
 }
 
+function getUserInterdayHeartRateData(date){
+    var header = new Headers()
+    header.append("Authorization", "Bearer " + access_token);
+    var init = {
+        headers: header
+    }
+
+    fetch(createInterdayFitbitRequest(), init).then(function(heartRateData) {
+        return heartRateData.json();
+      }).then(function(heartRateData) {
+          console.log(heartRateData);
+      });
+}
+
 function convertToCSV(array) {
     var str = 'Date, Out of Range Calories Out, Out of Range Max, Out of Range Min, Out of Range Minutes,' +
     'Fat Burn Calories Out, Fat Burn Max, Fat Burn Min, Fat Burn Minutes,' + 
@@ -76,6 +91,8 @@ function convertToCSV(array) {
 
     return str;
 }
+
+
 
 
 
@@ -150,6 +167,11 @@ function graphFitbitData(heartRateDataArray) {
 
 
     $('#chart-section').removeClass("hidden");  
+}
+
+function createInterdayFitbitRequest(startDate, endDate) {
+    return "https://api.fitbit.com/1/user/" + user_id + "/activities/heart/date/" +
+    "today/1d/1min.json";
 }
 
 function createFitbitRequest(startDate, endDate) {
