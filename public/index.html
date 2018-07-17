@@ -1,112 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-105987818-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', 'UA-105987818-1');
-    </script>
-
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> 
-   
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
 
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <!-- Include Date Range Picker -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
 
     <title>Pulse Watch</title>
-    <link type="text/css" rel="stylesheet" href="index.css">
+</head>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body class="text-center">
 
-    <script type="text/javascript" src="index.js"></script>
-  </head>
+    <div class="cover-container">
 
-  
-  <body>
-    <div class="pre-auth">
-        <h1 class="display-1">Pulse Watch</h1>
-        <p class="h2">Export your Fitbit heart rate data</p>
-        <p class="h2">Visualize it for any period</p>
-        <hr id="heading-seperator">
-        <a class="btn btn-primary btn-lg" href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJTT&redirect_uri=https%3A%2F%2Ficcir919.github.io%2FpulseWatch%2Fpublic%2Findex.html&scope=heartrate%20profile&expires_in=604800" role="button">
-            Log In To Fitbit
-        </a>
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">Pulse Watch</h1>
+            <p class="lead">Visualize and export your Fitbit heart rate data.</p>
+            <p class="lead">
+                <a href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22D46W&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdashboard.html&scope=activity%20heartrate%20profile%20sleep&expires_in=604800"
+                    class="btn btn-lg btn-secondary">Sign into Fitbit</a>
+            </p>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>Made by
+                    <a href="https://getbootstrap.com/">Neil 🤖</a>
+            </div>
+        </footer>
+
     </div>
 
-    <div class="hidden post-auth">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
 
-      <nav class="navbar">
-        <h1 class="navbar-brand display-4">Pulse Watch</h1>
-      </nav>
-
-      <div class="container">
-        <div class="row">
-        </div>
-        <div class="row">
-          <div id="date-range-label" class="col-4 col-md-3">
-              <label class="col-form-label">Date Range</label>
-          </div>
-          <div class="col-8 col-md-6">
-              <input id="date-range-input" type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
-          </div>
-          <div class="col text-center col-md-3">
-              <a id="date-range-submit" onClick="handleDateFormSubmit()" class="btn btn-primary">Fetch Data</a>
-          </div>
-        </div>
-        <hr class="post-auth-hr" id="date-input-seperator">
-        <div class="hidden" id="download-section">
-            <p>Click the green button below for a .csv file that includes your daily data categorized by Fitbit into four heart 
-              rate zones: out of range, fat burn, cardio, and peak. </p>
-            <a id="download-link">
-                <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
-                    Download Heart Rate Data
-                </button>
-            </a>
-            <hr class="post-auth-hr" id="download-seperator">
-        </div>
-      </div>
-
-       <div id="chart-section" class="container hidden">
-            <p class="h4">Resting Heart Rate Visualization</p>  
-            <div id="chart" class="responsive-plot"></div>
-        </div>
-            
-    </div>
-
-    <footer>
-        <nav class="navbar">
-            <ul class="nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="https://iccir919.github.io/">By Neil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.linkedin.com/in/neil-ricci/"><i class="fa fa-linkedin"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/iccir919"><i class="fa fa-github"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://twitter.com/realNeilVR"><i class="fa fa-twitter"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  </body>
 </html>
