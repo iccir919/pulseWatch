@@ -15,10 +15,10 @@
         crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="interday.css" rel="stylesheet">
 </head>
 
-<body class="text-center">
+<!-- <body class="text-center">
 
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
@@ -27,32 +27,146 @@
             </div>
         </header>
 
-        <div class="pricing-header px-3 py-3  pb-md-4 mx-auto text-center">
-            <h1 class="display-4">Welcome</h1>
-            <p class="lead">Choose how you would like your Fitbit heart rate data.</p>
+
+        <div class="py-5 text-center">
+            <h2>Interday heart rate data</h2>
         </div>
 
-        <div class="container">
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Choose your date range: </span>
+                    <span class="badge badge-secondary badge-pill">3</span>
+                </h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label id="start-day-label" for="startDate">Starting date</label>
+                            <input type="date" class="form-control" id="startDate" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Invalid start date!
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label id="stop-day-label" for="stopDate">Stop date</label>
+                            <input type="date" class="form-control" id="stopDate" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Invalid stop date!
+                            </div>
+                        </div>
+                    </div>
 
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Made by
-                        <a href="https://getbootstrap.com/">Neil 🤖</a>
-                </div>
-            </footer>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                </form>
+
+                <hr class="mb-4">
+
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary">Redeem</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 order-md-1">
+            </div>
         </div>
 
-        <script src="interday.js"></script>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Made by
+                    <a href="https://getbootstrap.com/">Neil 🤖</a>
+            </div>
+        </footer>
+    </div> -->
 
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+<body>
+
+    <div class="container">
+
+        <div class="py-5 text-center">
+            <h2>Interday heart rate data</h2>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="mb-3">Choose a time series:</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label id="start-day-label" for="startDate">Start date</label>
+                            <input type="date" class="form-control" id="startDate" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Invalid start date.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label id="end-day-label" for="endDate">End date</label>
+                            <input type="date" class="form-control" id="endDate" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Invalid end date.
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                    <hr class="mb-4">
+                </form>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="interday.js"></script>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [{
+                    data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+                    lineTension: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: '#007bff',
+                    borderWidth: 4,
+                    pointBackgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: false,
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>
