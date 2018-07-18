@@ -21,11 +21,6 @@
 <body class="text-center">
 
     <div class="container d-flex h-100 p-3 mx-auto flex-column">
-        <header class="masthead mb-auto">
-            <div class="inner">
-                <h3 class="masthead-brand">Pulse Watch</h3>
-            </div>
-        </header>
 
         <div class="pricing-header px-3 py-3  pb-md-4 mx-auto text-center">
             <h1 class="display-4">Welcome</h1>
@@ -71,12 +66,35 @@
                 </div>
             </div>
 
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Made by
-                        <a href="https://getbootstrap.com/">Neil 🤖</a>
+            <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Pulse Watch</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/interday.html">Interday
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="">Intraday</a>
+                        </li>
+                    </ul>
+                    <div class="footer mt-2 mt-md-0">
+                        <span>Made with love by
+                            <a href="https://neilricci.github.io/">Neil</a>
+                        </span>
+                    </div>
                 </div>
-            </footer>
+            </nav>
         </div>
 
         <script src="dashboard.js"></script>

@@ -34,18 +34,18 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 order-md-2 mb-4">
+            <div class="col-lg-4 order-lg-2 mb-4">
                 <h4 class="mb-3">Choose a time series:</h4>
-                <form class="needs-validation" novalidate>
+                <form class="mr-2" novalidate>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="startDate">Start date</label>
-                            <input type="text" class="form-control datetimepicker-input" id="startDate" data-toggle="datetimepicker" data-target="#startDate"
+                        <div class="col-12 mb-3 row">
+                            <label id="start-day-label" class="col-3 " for="startDate">From</label>
+                            <input type="text" class="col-9 form-control datetimepicker-input" id="startDate" data-toggle="datetimepicker" data-target="#startDate"
                             />
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="lastName">End date</label>
-                            <input type="text" class="form-control datetimepicker-input" id="endDate" data-toggle="datetimepicker" data-target="#endDate"
+                        <div class="col-12 mb-3 row">
+                            <label id="end-day-label" class="col-3" for="lastName">To</label>
+                            <input type="text" class="col-9 form-control datetimepicker-input" id="endDate" data-toggle="datetimepicker" data-target="#endDate"
                             />
                         </div>
                     </div>
@@ -58,17 +58,39 @@
                     </a>
                 </form>
             </div>
-            <div class="col-md-8 order-md-1">
-                <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+            <div class="col-lg-8 order-lg-1">
+                <canvas class="my-4" id="myChart" width="900" height="480"></canvas>
             </div>
         </div>
-        <footer class="mastfoot text-center mt-3">
-            <div class="inner">
-                <p>Made by
-                    <a href="https://getbootstrap.com/">Neil 🤖</a>
-            </div>
-        </footer>
     </div>
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Pulse Watch</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard.html">Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="">Interday
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="">Intraday</a>
+                </li>
+            </ul>
+            <div class="footer mt-2 mt-md-0">
+                <span>Made with love by
+                    <a href="https://neilricci.github.io/">Neil</a>
+                </span>
+            </div>
+        </div>
+    </nav>
 
 
     <!-- jQuery -->

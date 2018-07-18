@@ -132,9 +132,7 @@ function createInterdayGraph(heartRateData) {
 }
 
 function exportCSVFile(array) {
-  console.log(array);
   var csv = convertToCSV(array);
-  console.log(csv);
 
   var exportedFilenmae = "export.csv";
 
@@ -147,6 +145,7 @@ function exportCSVFile(array) {
     var url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
     link.setAttribute("download", exportedFilenmae);
+    link.style.display = "block";
   }
 }
 

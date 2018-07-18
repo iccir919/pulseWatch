@@ -1,10 +1,15 @@
-/*
- * Base structure
- */
-
 html,
 body {
   height: 100%;
+}
+
+.footer {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.footer a {
+  color: white;
+  text-decoration: none;
 }
 
 @media (min-width: 48em) {
