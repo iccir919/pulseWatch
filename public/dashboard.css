@@ -3,11 +3,15 @@ body {
   height: 100%;
 }
 
-.footer {
+.navbar-dark .navbar-brand {
+  color: #f54786;
+}
+
+.author-text {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.footer a {
+.author-text a {
   color: white;
   text-decoration: none;
 }
