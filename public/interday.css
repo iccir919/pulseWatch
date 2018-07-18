@@ -6,6 +6,19 @@
   color: red;
 }
 
+#download-link {
+  text-decoration: none;
+  display: none;
+}
+
+#download-button {
+  cursor: pointer;
+}
+
+/* #download-button {
+  display: none;
+} */
+
 /*
  * Footer
  */

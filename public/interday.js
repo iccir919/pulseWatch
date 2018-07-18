@@ -1,7 +1,89 @@
-window.onload = function() {
-  var access_token = sessionStorage.getItem("access_token");
-  var user_id_token = sessionStorage.getItem("user_id_token");
-};
+var access_token;
+var user_id;
+
+var userHeartRateData;
+
+var startDate;
+var endDate;
+
+document.addEventListener("DOMContentLoaded", function() {
+  access_token = sessionStorage.getItem("access_token");
+  user_id = sessionStorage.getItem("user_id_token");
+
+  $("#startDate").datetimepicker({
+    format: "L"
+  });
+  $("#endDate").datetimepicker({
+    format: "L",
+    useCurrent: false
+  });
+
+  $("#startDate").on("change.datetimepicker", function(e) {
+    $("#endDate").datetimepicker("minDate", e.date);
+  });
+  $("#endDate").on("change.datetimepicker", function(e) {
+    $("#startDate").datetimepicker("maxDate", e.date);
+  });
+});
+
+function handleSubmit() {
+  startDate = document.getElementById("startDate").value;
+  endDate = document.getElementById("endDate").value;
+
+  startDate = formatDate(startDate);
+  endDate = formatDate(endDate);
+
+  getUserHeartRateData(startDate, endDate);
+}
+
+function formatDate(date) {
+  var sections = date.split("/");
+  var year = sections.pop();
+  sections.unshift(year);
+
+  var result = sections.join("-");
+
+  return result;
+}
+
+function getUserHeartRateData(from, to) {
+  var header = new Headers();
+  header.append("Authorization", "Bearer " + access_token);
+  var init = {
+    headers: header
+  };
+
+  fetch(createFitbitRequest(from, to), init)
+    .then(function(heartRateData) {
+      return heartRateData.json();
+    })
+    .then(function(heartRateData) {
+      userHeartRateData = heartRateData["activities-heart"];
+
+      exportCSVFile(userHeartRateData);
+
+      var dataWithRestingRate = returnDataWithRestingRate(userHeartRateData);
+      createInterdayGraph(dataWithRestingRate);
+    });
+}
+
+function returnDataWithRestingRate(heartRateData) {
+  return heartRateData.filter(function(dailyData) {
+    return dailyData.value.restingHeartRate;
+  });
+}
+
+function createFitbitRequest(from, to) {
+  return (
+    "https://api.fitbit.com/1/user/" +
+    user_id +
+    "/activities/heart/date/" +
+    from +
+    "/" +
+    to +
+    ".json"
+  );
+}
 
 function createInterdayGraph(heartRateData) {
   var xValues = [];
@@ -12,22 +94,18 @@ function createInterdayGraph(heartRateData) {
     yValues.push(data.value.restingHeartRate);
   });
 
+  xValues = xValues.map(function(value) {
+    return moment(value, "YYYY-MM-DD").format("LL");
+  });
+
   var ctx = document.getElementById("myChart");
   var myChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ],
+      labels: xValues,
       datasets: [
         {
-          data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+          data: yValues,
           lineTension: 0,
           backgroundColor: "transparent",
           borderColor: "#007bff",
@@ -53,47 +131,52 @@ function createInterdayGraph(heartRateData) {
   });
 }
 
-function graphFitbitData(heartRateDataArray) {
-  var xValues = [];
-  var yValues = [];
+function exportCSVFile(array) {
+  console.log(array);
+  var csv = convertToCSV(array);
+  console.log(csv);
 
-  heartRateDataArray.forEach(function(data) {
-    xValues.push(data.dateTime);
-    yValues.push(data.value.restingHeartRate);
-  });
+  var exportedFilenmae = "export.csv";
 
-  var config = [
-    {
-      x: xValues,
-      y: yValues,
-      type: "scatter",
-      line: { color: "#17BECF" },
-      name: "Resting Heart Rate"
-    }
-  ];
-  Plotly.newPlot("chart", config);
+  var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-  (function() {
-    var d3 = Plotly.d3;
-    var WIDTH_IN_PERCENT_OF_PARENT = 100,
-      HEIGHT_IN_PERCENT_OF_PARENT = 90;
+  var link = document.getElementById("download-link");
+  if (link.download !== undefined) {
+    // feature detection
+    // Browsers that support HTML5 download attribute
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", exportedFilenmae);
+  }
+}
 
-    var gd3 = d3.selectAll(".responsive-plot").style({
-      width: WIDTH_IN_PERCENT_OF_PARENT + "%",
-      "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
+function convertToCSV(array) {
+  var str =
+    "Date, Out of Range Calories Out, Out of Range Max, Out of Range Min, Out of Range Minutes," +
+    "Fat Burn Calories Out, Fat Burn Max, Fat Burn Min, Fat Burn Minutes," +
+    "Cardio Calories Out, Cardio Max, Cardio Min, Cardio Minutes," +
+    "Peak Calories Out, Peak Max, Peak Min, Peak Minutes, Resting Heart Rate" +
+    "\r\n";
 
-      height: HEIGHT_IN_PERCENT_OF_PARENT + "vh",
-      "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh"
+  for (var i = 0; i < array.length; i++) {
+    var line = "";
+
+    line += array[i].dateTime;
+    line += ",";
+
+    array[i].value.heartRateZones.forEach(function(zone) {
+      for (var dataItem in zone) {
+        if (dataItem !== "name") {
+          line += zone[dataItem];
+          line += ",";
+        }
+      }
     });
 
-    var nodes_to_resize = gd3[0]; //not sure why but the goods are within a nested array
-    window.onresize = function() {
-      for (var i = 0; i < nodes_to_resize.length; i++) {
-        Plotly.Plots.resize(nodes_to_resize[i]);
-      }
-    };
-    Plotly.Plots.resize(nodes_to_resize[0]);
-  })();
+    line += array[i].value.restingHeartRate;
 
-  $("#chart-section").removeClass("hidden");
+    str += line + "\r\n";
+  }
+
+  return str;
 }
