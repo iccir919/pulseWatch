@@ -3,8 +3,7 @@ var user_id;
 
 var userHeartRateData;
 
-var startDate;
-var endDate;
+var date;
 
 document.addEventListener("DOMContentLoaded", function() {
   access_token = sessionStorage.getItem("access_token");
@@ -14,34 +13,22 @@ document.addEventListener("DOMContentLoaded", function() {
     window.location.replace("./index.html");
   }
 
-  $("#startDate").datetimepicker({
-    format: "L"
-  });
-  $("#endDate").datetimepicker({
-    format: "L",
-    useCurrent: false
-  });
-
-  $("#startDate").on("change.datetimepicker", function(e) {
-    $("#endDate").datetimepicker("minDate", e.date);
-  });
-  $("#endDate").on("change.datetimepicker", function(e) {
-    $("#startDate").datetimepicker("maxDate", e.date);
+  $(function() {
+    $("#singledaypicker").datetimepicker({
+      format: "L"
+    });
   });
 });
 
 function handleSubmit() {
-  startDate = document.getElementById("startDate").value;
-  endDate = document.getElementById("endDate").value;
+  date = document.getElementById("singledayinput").value;
+  date = formatDate(date);
 
-  startDate = formatDate(startDate);
-  endDate = formatDate(endDate);
-
-  getUserHeartRateData(startDate, endDate);
+  getUserHeartRateData(date);
 }
 
-function formatDate(date) {
-  var sections = date.split("/");
+function formatDate(day) {
+  var sections = day.split("/");
   var year = sections.pop();
   sections.unshift(year);
 
@@ -50,52 +37,48 @@ function formatDate(date) {
   return result;
 }
 
-function getUserHeartRateData(from, to) {
+function getUserHeartRateData(day) {
   var header = new Headers();
   header.append("Authorization", "Bearer " + access_token);
   var init = {
     headers: header
   };
 
-  fetch(createFitbitRequest(from, to), init)
+  fetch(createFitbitRequest(day), init)
     .then(function(heartRateData) {
       return heartRateData.json();
     })
     .then(function(heartRateData) {
-      userHeartRateData = heartRateData["activities-heart"];
+      userHeartRateData = heartRateData["activities-heart-intraday"].dataset;
 
       exportCSVFile(userHeartRateData);
 
-      var dataWithRestingRate = userHeartRateData.filter(function(dailyData) {
-        return dailyData.value.restingHeartRate;
-      });
-      createInterdayGraph(dataWithRestingRate);
+      createInterdayGraph(userHeartRateData);
     });
 }
 
-function createFitbitRequest(from, to) {
+function createFitbitRequest(day) {
   return (
     "https://api.fitbit.com/1/user/" +
     user_id +
     "/activities/heart/date/" +
-    from +
-    "/" +
-    to +
-    ".json"
+    day +
+    "/1d/1min.json"
   );
 }
 
 function createInterdayGraph(heartRateData) {
+  console.log(heartRateData);
   var xValues = [];
   var yValues = [];
 
   heartRateData.forEach(function(data) {
-    xValues.push(data.dateTime);
-    yValues.push(data.value.restingHeartRate);
+    xValues.push(data.time);
+    yValues.push(data.value);
   });
 
   xValues = xValues.map(function(value) {
-    return moment(value, "YYYY-MM-DD").format("LL");
+    return moment(value, "HH-mm-ss").format("LT");
   });
 
   var ctx = document.getElementById("myChart");
@@ -135,11 +118,10 @@ function createInterdayGraph(heartRateData) {
     }
   });
 }
-
 function exportCSVFile(array) {
   var csv = convertToCSV(array);
 
-  var exportedFilenmae = "export.csv";
+  var exportedFilenmae = date + ".csv";
 
   var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
@@ -156,9 +138,9 @@ function exportCSVFile(array) {
 
 function convertToCSV(data) {
   var string = d3.csvFormatRows(
-    [["Date", "Resting Heart Rate"]].concat(
+    [["Time", "Heart Rate"]].concat(
       data.map(function(d, i) {
-        return [d.dateTime, d.value.restingHeartRate];
+        return [d.time, d.value];
       })
     )
   );

@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Pulse Watch -- Interday</title>
+    <title>Pulse Watch -- Intraday</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
@@ -22,7 +22,7 @@
     />
 
     <!-- Custom styles for this template -->
-    <link href="interday.css" rel="stylesheet">
+    <link href="intraday.css" rel="stylesheet">
 
     <!-- d3 -->
     <script src="https://d3js.org/d3.v5.js"></script>
@@ -44,8 +44,8 @@
     <div class="container p-1">
 
         <div class="text-center">
-            <h2>Interday heart rate data</h2>
-            <p class="lead">Visualize and export your Fitbit resting heart rate for any time period!</p>
+            <h2>Intraday heart rate data</h2>
+            <p class="lead">Get one heart rate measurement per minute for any day you want!</p>
         </div>
 
         <div class="row">
@@ -53,15 +53,17 @@
                 <h4 class="mb-3">Select a time period:</h4>
                 <form class="mr-2" novalidate>
                     <div class="row">
-                        <div class="col-12 mb-3 row">
-                            <label id="start-day-label" class="col-3 " for="startDate">From:</label>
-                            <input type="text" class="col-9 form-control datetimepicker-input" id="startDate" data-toggle="datetimepicker" data-target="#startDate"
-                            />
-                        </div>
-                        <div class="col-12 mb-3 row">
-                            <label id="end-day-label" class="col-3" for="lastName">To:</label>
-                            <input type="text" class="col-9 form-control datetimepicker-input" id="endDate" data-toggle="datetimepicker" data-target="#endDate"
-                            />
+                        <div class="col-12 mb-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="singledaypicker" data-target-input="nearest">
+                                    <input type="text" id="singledayinput" class="form-control datetimepicker-input" data-target="#singledaypicker" />
+                                    <div class="input-group-append" data-target="#singledaypicker" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
@@ -91,12 +93,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="">Interday
-                        <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="">Interday
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./intraday.html">Intraday</a>
+                    <a class="nav-link active" href="">Intraday</a>
+                    <span class="sr-only">(current)</span>
                 </li>
             </ul>
             <div class="author-text mt-2 mt-md-0">
@@ -129,7 +131,7 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
-    <script src="interday.js"></script>
+    <script src="intraday.js"></script>
 
 
 
