@@ -15,11 +15,12 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   $("#startDate").datetimepicker({
-    format: "L"
+    format: "L",
+    defaultDate: moment().subtract(1, "months").format("L")
   });
   $("#endDate").datetimepicker({
     format: "L",
-    useCurrent: false
+    defaultDate: moment().format("L")
   });
 
   $("#startDate").on("change.datetimepicker", function(e) {

@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   $(function() {
     $("#singledaypicker").datetimepicker({
-      format: "L"
+      format: "L",
+      defaultDate: moment().format("L")
     });
   });
 });
