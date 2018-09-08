@@ -17,9 +17,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 
-    <!-- Tempus Dominus CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
-    />
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Custom styles for this template -->
     <link href="intraday.css" rel="stylesheet">
@@ -53,7 +52,7 @@
 
                 <form>
                     <fieldset class="form-group">
-                        <div class="row">
+                        <div class="row align-items-center">
                             <legend class="col-form-label col-form-label-lg col-sm-3 pt-0">Detail Level</legend>
                             <div class="col-sm-9">
                                 <div class="form-check">
@@ -74,14 +73,7 @@
                     <div class="form-group row">
                         <label for="colFormLabelLg" class="col-sm-3 col-form-label col-form-label-lg">Date</label>
                         <div class="col-sm-9">
-                            <div class="input-group date" id="singledaypicker" data-target-input="nearest">
-                                <input type="text" id="singledayinput" class="form-control datetimepicker-input" data-target="#singledaypicker" />
-                                <div class="input-group-append" data-target="#singledaypicker" data-toggle="datetimepicker">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                            </div>
+                            <input class="form-control form-control-lg" type="text" name="birthday" value="10/24/1984" />
                         </div>
                     </div>
                     <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
@@ -132,14 +124,13 @@
 
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 
     <!-- Moment.js -->
-    <script type="text/javascript" src="lib/moment.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-    <!-- Tempus Dominus -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
