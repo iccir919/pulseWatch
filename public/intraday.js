@@ -13,25 +13,31 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   $(function() {
-    $('input[name="date"]').val(
-      moment()
-        .add(-1, "days")
-        .format("L")
-    );
-
-    $('input[name="date"]').daterangepicker(
-      {
-        singleDatePicker: true,
-        showDropdowns: true
-      },
-      function(date) {
-        getUserHeartRateData(date.format("YYYY-MM-"));
-      }
-    );
+    $('input[name="date"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true
+    });
   });
 
   createInterdayGraph([]);
 });
+
+function handleSubmit() {
+  date = $('input[name="date"]').val();
+  date = formatDate(date);
+
+  getUserHeartRateData(date);
+}
+
+function formatDate(day) {
+  var sections = day.split("/");
+  var year = sections.pop();
+  sections.unshift(year);
+
+  var result = sections.join("-");
+
+  return result;
+}
 
 function getUserHeartRateData(date) {
   var header = new Headers();
@@ -54,7 +60,7 @@ function getUserHeartRateData(date) {
 }
 
 function createFitbitRequest(day) {
-  if (document.getElementById("minute").checked) {
+  if ($("#perMinute").is(":checked")) {
     detailLevel = "1min";
   } else {
     detailLevel = "1sec";
@@ -82,7 +88,11 @@ function createInterdayGraph(heartRateData) {
   });
 
   xValues = xValues.map(function(value) {
-    return moment(value, "HH-mm-ss").format("LT");
+    if ($("#perMinute").is(":checked")) {
+      return moment(value, "HH-mm-ss").format("LT");
+    } else {
+      return moment(value, "HH-mm-ss").format("LTS");
+    }
   });
 
   var ctx = document.getElementById("myChart");
@@ -93,11 +103,12 @@ function createInterdayGraph(heartRateData) {
       datasets: [
         {
           data: yValues,
-          lineTension: 0,
+          lineTension: 1,
           backgroundColor: "transparent",
           borderColor: "#007bff",
           borderWidth: 4,
-          pointBackgroundColor: "#007bff"
+          pointBackgroundColor: "#007bff",
+          pointRadius: 0
         }
       ]
     },
@@ -105,10 +116,20 @@ function createInterdayGraph(heartRateData) {
       scales: {
         yAxes: [
           {
-            display: true,
             scaleLabel: {
               display: true,
               labelString: "beats per minute"
+            },
+            ticks: {
+              beginAtZero: false
+            }
+          }
+        ],
+        xAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "time"
             },
             ticks: {
               beginAtZero: false
