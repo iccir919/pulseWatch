@@ -1,9 +1,8 @@
 var access_token;
 var user_id;
-
 var userHeartRateData;
-
 var date;
+var detailLevel;
 
 document.addEventListener("DOMContentLoaded", function() {
   access_token = sessionStorage.getItem("access_token");
@@ -14,16 +13,19 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   $(function() {
-    $('input[name="birthday"]').daterangepicker(
+    $('input[name="date"]').val(
+      moment()
+        .add(-1, "days")
+        .format("L")
+    );
+
+    $('input[name="date"]').daterangepicker(
       {
         singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"), 10)
+        showDropdowns: true
       },
-      function(start, end, label) {
-        var years = moment().diff(start, "years");
-        alert("You are " + years + " years old!");
+      function(date) {
+        getUserHeartRateData(date.format("YYYY-MM-"));
       }
     );
   });
@@ -31,31 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
   createInterdayGraph([]);
 });
 
-function handleSubmit() {
-  date = document.getElementById("singledayinput").value;
-  date = formatDate(date);
-
-  getUserHeartRateData(date);
-}
-
-function formatDate(day) {
-  var sections = day.split("/");
-  var year = sections.pop();
-  sections.unshift(year);
-
-  var result = sections.join("-");
-
-  return result;
-}
-
-function getUserHeartRateData(day) {
+function getUserHeartRateData(date) {
   var header = new Headers();
   header.append("Authorization", "Bearer " + access_token);
   var init = {
     headers: header
   };
 
-  fetch(createFitbitRequest(day), init)
+  fetch(createFitbitRequest(date), init)
     .then(function(heartRateData) {
       return heartRateData.json();
     })
@@ -69,12 +54,20 @@ function getUserHeartRateData(day) {
 }
 
 function createFitbitRequest(day) {
+  if (document.getElementById("minute").checked) {
+    detailLevel = "1min";
+  } else {
+    detailLevel = "1sec";
+  }
+
   return (
     "https://api.fitbit.com/1/user/" +
     user_id +
     "/activities/heart/date/" +
     day +
-    "/1d/1min.json"
+    "/1d/" +
+    detailLevel +
+    ".json"
   );
 }
 
