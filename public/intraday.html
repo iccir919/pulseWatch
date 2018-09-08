@@ -49,37 +49,58 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4 order-lg-2 mb-4">
-                <h4 class="mb-3">Select a day:</h4>
-                <form class="mr-2" novalidate>
-                    <div class="row">
-                        <div class="col-12 mb-3">
-                            <div class="form-group">
-                                <div class="input-group date" id="singledaypicker" data-target-input="nearest">
-                                    <input type="text" id="singledayinput" class="form-control datetimepicker-input" data-target="#singledaypicker" />
-                                    <div class="input-group-append" data-target="#singledaypicker" data-toggle="datetimepicker">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
+            <div class="col-lg-4">
+
+                <form>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-form-label-lg col-sm-3 pt-0">Detail Level</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="gridRadios1">
+                                        per Second
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        per Minute
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label for="colFormLabelLg" class="col-sm-3 col-form-label col-form-label-lg">Date</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date" id="singledaypicker" data-target-input="nearest">
+                                <input type="text" id="singledayinput" class="form-control datetimepicker-input" data-target="#singledaypicker" />
+                                <div class="input-group-append" data-target="#singledaypicker" data-toggle="datetimepicker">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
-                    <hr class="mb-4">
-                    <a id="download-link">
-                        <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
-                            Download the data
-                        </button>
-                    </a>
                 </form>
+                <hr class="mb-4">
+                <a id="download-link">
+                    <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
+                        Download the data
+                    </button>
+                </a>
             </div>
-            <div class="col-lg-8 order-lg-1">
+            <div class="col-lg-8">
                 <canvas class="my-4" id="myChart" width="900" height="480"></canvas>
             </div>
         </div>
     </div>
+
+
+
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Pulse Watch</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
