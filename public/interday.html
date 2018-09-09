@@ -17,15 +17,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 
-    <!-- Tempus Dominus CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
-    />
-
     <!-- Custom styles for this template -->
     <link href="interday.css" rel="stylesheet">
 
-    <!-- d3 -->
-    <script src="https://d3js.org/d3.v5.js"></script>
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-105987818-1"></script>
@@ -49,31 +46,21 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4 order-lg-2 mb-4">
-                <h4 class="mb-3">Select a time period:</h4>
-                <form class="mr-2" novalidate>
-                    <div class="row">
-                        <div class="col-12 mb-3 row">
-                            <label id="start-day-label" class="col-3 " for="startDate">From:</label>
-                            <input type="text" class="col-9 form-control datetimepicker-input" id="startDate" data-toggle="datetimepicker" data-target="#startDate"
-                            />
-                        </div>
-                        <div class="col-12 mb-3 row">
-                            <label id="end-day-label" class="col-3" for="lastName">To:</label>
-                            <input type="text" class="col-9 form-control datetimepicker-input" id="endDate" data-toggle="datetimepicker" data-target="#endDate"
-                            />
-                        </div>
+            <div class="col-lg-4">
+                <h4 class="mb-3">Select a date range:</h4>
+                <form>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" name="daterange" />
                     </div>
-                    <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
-                    <hr class="mb-4">
-                    <a id="download-link">
-                        <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
-                            Download the data
-                        </button>
-                    </a>
                 </form>
+                <hr class="mb-4">
+                <a id="download-link">
+                    <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
+                        Download the data
+                    </button>
+                </a>
             </div>
-            <div class="col-lg-8 order-lg-1">
+            <div class="col-lg-8">
                 <canvas class="my-4" id="myChart" width="900" height="480"></canvas>
             </div>
         </div>
@@ -109,14 +96,13 @@
 
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 
     <!-- Moment.js -->
-    <script type="text/javascript" src="lib/moment.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-    <!-- Tempus Dominus -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -125,6 +111,9 @@
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <!-- d3 -->
+    <script src="https://d3js.org/d3.v5.js"></script>
 
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>

@@ -15,11 +15,10 @@ document.addEventListener("DOMContentLoaded", function() {
   $(function() {
     $('input[name="date"]').daterangepicker({
       singleDatePicker: true,
-      showDropdowns: true
+      showDropdowns: true,
+      maxDate: new Date()
     });
   });
-
-  createInterdayGraph([]);
 });
 
 function handleSubmit() {
@@ -77,6 +76,35 @@ function createFitbitRequest(day) {
   );
 }
 
+var customTooltips = function(tooltip) {
+  $(this._chart.canvas).css("cursor", "pointer");
+
+  var positionY = this._chart.canvas.offsetTop;
+  var positionX = this._chart.canvas.offsetLeft;
+
+  $(".chartjs-tooltip").css({
+    opacity: 0
+  });
+
+  if (!tooltip || !tooltip.opacity) {
+    return;
+  }
+
+  if (tooltip.dataPoints.length > 0) {
+    tooltip.dataPoints.forEach(function(dataPoint) {
+      var content = dataPoint.yLabel + " bpm <br> at " + dataPoint.xLabel;
+      var $tooltip = $("#tooltip-" + dataPoint.datasetIndex);
+
+      $tooltip.html(content);
+      $tooltip.css({
+        opacity: 1,
+        top: 25 + positionY + dataPoint.y + "px",
+        left: positionX + dataPoint.x + "px"
+      });
+    });
+  }
+};
+
 function createInterdayGraph(heartRateData) {
   console.log(heartRateData);
   var xValues = [];
@@ -97,7 +125,7 @@ function createInterdayGraph(heartRateData) {
 
   var ctx = document.getElementById("myChart");
   var myChart = new Chart(ctx, {
-    type: "line",
+    type: "bar",
     data: {
       labels: xValues,
       datasets: [
@@ -139,6 +167,12 @@ function createInterdayGraph(heartRateData) {
       },
       legend: {
         display: false
+      },
+      tooltips: {
+        enabled: false,
+        mode: "index",
+        intersect: false,
+        custom: customTooltips
       }
     }
   });

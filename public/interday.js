@@ -14,41 +14,22 @@ document.addEventListener("DOMContentLoaded", function() {
     window.location.replace("./index.html");
   }
 
-  $("#startDate").datetimepicker({
-    format: "L"
-  });
-  $("#endDate").datetimepicker({
-    format: "L",
-    useCurrent: false
-  });
-
-  $("#startDate").on("change.datetimepicker", function(e) {
-    $("#endDate").datetimepicker("minDate", e.date);
-  });
-  $("#endDate").on("change.datetimepicker", function(e) {
-    $("#startDate").datetimepicker("maxDate", e.date);
+  $(function() {
+    $('input[name="daterange"]').daterangepicker(
+      {
+        maxDate: new Date()
+      },
+      function(start, end, label) {
+        startDate = start.format("YYYY-MM-DD");
+        endDate = end.format("YYYY-MM-DD");
+        getUserHeartRateData(
+          end.format("YYYY-MM-DD"),
+          start.format("YYYY-MM-DD")
+        );
+      }
+    );
   });
 });
-
-function handleSubmit() {
-  startDate = document.getElementById("startDate").value;
-  endDate = document.getElementById("endDate").value;
-
-  startDate = formatDate(startDate);
-  endDate = formatDate(endDate);
-
-  getUserHeartRateData(startDate, endDate);
-}
-
-function formatDate(date) {
-  var sections = date.split("/");
-  var year = sections.pop();
-  sections.unshift(year);
-
-  var result = sections.join("-");
-
-  return result;
-}
 
 function getUserHeartRateData(from, to) {
   var header = new Headers();
@@ -139,7 +120,7 @@ function createInterdayGraph(heartRateData) {
 function exportCSVFile(array) {
   var csv = convertToCSV(array);
 
-  var exportedFilenmae = "export.csv";
+  var exportedFilenmae = startDate + "--" + endDate;
 
   var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 

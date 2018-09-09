@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Cover Template for Bootstrap</title>
+    <title>Pulse Watch -- Dashboard</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -34,7 +34,7 @@
     <div class="container d-flex h-100 p-3 mx-auto flex-column">
 
         <div class="pricing-header px-3 py-3  pb-md-4 mx-auto text-center">
-            <h1 class="display-4">Welcome</h1>
+            <h1 id="welcome" class="display-4">Welcome</h1>
             <p class="lead">Choose how you would like your Fitbit heart rate data.</p>
         </div>
 
@@ -52,7 +52,6 @@
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Choose any time period length</li>
                             <li>Limited to daily resting heart rate average</li>
-                            <li>Daily heart rate zone breakdown</li>
                         </ul>
                         <a href="./interday.html" class="btn btn-lg btn-block btn-outline-primary">I choose interday</a>
                     </div>
@@ -68,8 +67,9 @@
                         </h1>
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Limited to only one day</li>
-                            <li>Single minute detail of heart rate level for day</li>
-                            <li>Daily heart rate zone breakdown</li>
+                            <li>Beat per minute
+                                <strong>or</strong> second</li>
+
 
                         </ul>
                         <a href="./intraday.html" class="btn btn-lg btn-block btn-outline-primary">I choose intraday</a>
@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="">Intraday</a>
+                            <a class="nav-link" href="./intraday.html">Intraday</a>
                         </li>
                     </ul>
                     <div class="author-text mt-2 mt-md-0">
