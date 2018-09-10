@@ -10,10 +10,19 @@ window.onload = function() {
   // if your response_type argument contained id_token
   user_id = getIdToken();
 
-  sessionStorage.setItem("access_token", access_token);
-  sessionStorage.setItem("user_id_token", user_id);
+  if (access_token && user_id) {
+    sessionStorage.setItem("access_token", access_token);
+    sessionStorage.setItem("user_id_token", user_id);
+  } else {
+    access_token = sessionStorage.getItem("access_token");
+    user_id = sessionStorage.getItem("user_id_token");
+  }
 
-  getUserName();
+  if (access_token && user_id) {
+    getUserName();
+  } else {
+    window.location.replace("./index.html");
+  }
 };
 
 function getUserName() {
