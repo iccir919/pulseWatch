@@ -2,6 +2,9 @@ var access_token;
 var user_id;
 var userHeartRateData;
 var date;
+var startTime;
+var endTime;
+var timeRange;
 var detailLevel;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -25,7 +28,33 @@ function handleSubmit() {
   date = $('input[name="date"]').val();
   date = formatDate(date);
 
-  getUserHeartRateData(date);
+  startTime = document.getElementById("startTime").value;
+  endTime = document.getElementById("endTime").value;
+
+  if (startTime) {
+    timeRange = "/time/" + startTime;
+    if (endTime) {
+      timeRange += "/" + endTime;
+    } else {
+      timeRange += "/23:59";
+    }
+  } else {
+    timeRange = "";
+  }
+
+  if (startTime && endTime) {
+    if (moment(startTime, "HH:mm").isBefore(moment(endTime, "HH:mm"))) {
+      document.getElementById("startTime").className = "form-control";
+      document.getElementById("endTime").className = "form-control";
+      getUserHeartRateData(date);
+    } else {
+      document.getElementById("startTime").className =
+        "form-control is-invalid";
+      document.getElementById("endTime").className = "form-control is-invalid";
+    }
+  } else {
+    getUserHeartRateData(date);
+  }
 }
 
 function formatDate(day) {
@@ -72,6 +101,7 @@ function createFitbitRequest(day) {
     day +
     "/1d/" +
     detailLevel +
+    timeRange +
     ".json"
   );
 }
@@ -124,7 +154,7 @@ function createInterdayGraph(heartRateData) {
   });
 
   var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
+  var chartConfig = {
     type: "bar",
     data: {
       labels: xValues,
@@ -175,7 +205,9 @@ function createInterdayGraph(heartRateData) {
         custom: customTooltips
       }
     }
-  });
+  };
+  var myChart = new Chart(ctx, chartConfig);
+  myChart.update(chartConfig);
 }
 
 function exportCSVFile(array) {

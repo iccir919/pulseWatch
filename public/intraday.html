@@ -49,8 +49,8 @@
         <div class="row">
             <div class="col-lg-4">
                 <form>
-                    <fieldset class="form-group">
-                        <div class="row align-items-center">
+                    <fieldset class="form-group align-items-center">
+                        <div class="row">
                             <legend class="col-form-label col-form-label-lg col-sm-3 pt-0">Detail Level</legend>
                             <div class="col-sm-9">
                                 <div class="form-check">
@@ -74,9 +74,24 @@
                             <input class="form-control form-control-lg" type="text" name="date" />
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <legend class="col-form-label col-form-label-lg col-sm-3 pt-0">Time Range</legend>
+                        <div id="form" class="col-sm-9">
+                            <label for="startTime">Start time</label>
+                            <input type="time" class="form-control" id="startTime" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Start time must be before end time
+                            </div>
+                            <label for="endTime">End time</label>
+                            <input type="time" class="form-control" id="endTime" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                End time must be before start time
+                            </div>
+                        </div>
+                    </div>
                     <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
                 </form>
-                <hr class="mb-4">
+                <hr class="mb-2">
                 <a id="download-link">
                     <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
                         Download data to .csv
