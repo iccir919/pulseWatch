@@ -92,15 +92,18 @@
                     <button onclick="handleSubmit()" class="btn btn-primary btn-lg btn-block" type="button">Get the data</button>
                 </form>
                 <hr class="mb-2">
-                <a id="download-link">
+                <a id="download-link" class="mb-2">
                     <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
                         Download data to .csv
                     </button>
                 </a>
             </div>
             <div class="col-lg-8">
-                <canvas class="my-4" id="myChart" width="900" height="480"></canvas>
-                <div class="chartjs-tooltip" id="tooltip-0"></div>
+                <div class="row mx-2">
+                    <canvas id="myChart" width="900" height="700"></canvas>
+                    <div class="chartjs-tooltip" id="tooltip-0"></div>
+                </div>
+
             </div>
         </div>
     </div>
