@@ -48,3 +48,7 @@ body {
   width: 10px;
   height: 10px;
 }
+
+input[type="time"] {
+  min-height: 2.5rem;
+}
