@@ -6,6 +6,43 @@ var userHeartRateData;
 var startDate;
 var endDate;
 
+var ctx = document.getElementById("myChart");
+var config = {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        lineTension: 0,
+        backgroundColor: "transparent",
+        borderColor: "#007bff",
+        borderWidth: 4,
+        pointBackgroundColor: "#007bff"
+      }
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "beats per minute"
+          },
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ]
+    },
+    legend: {
+      display: false
+    }
+  }
+};
+
 document.addEventListener("DOMContentLoaded", function() {
   access_token = sessionStorage.getItem("access_token");
   user_id = sessionStorage.getItem("user_id_token");
@@ -29,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     );
   });
+
+  window.myLine = new Chart(ctx, config);
 });
 
 function getUserHeartRateData(from, to) {
@@ -79,42 +118,10 @@ function createInterdayGraph(heartRateData) {
     return moment(value, "YYYY-MM-DD").format("LL");
   });
 
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: xValues,
-      datasets: [
-        {
-          data: yValues,
-          lineTension: 0,
-          backgroundColor: "transparent",
-          borderColor: "#007bff",
-          borderWidth: 4,
-          pointBackgroundColor: "#007bff"
-        }
-      ]
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: "beats per minute"
-            },
-            ticks: {
-              beginAtZero: false
-            }
-          }
-        ]
-      },
-      legend: {
-        display: false
-      }
-    }
-  });
+  window.myLine.config.data.labels = xValues;
+  window.myLine.config.data.datasets[0].data = yValues;
+
+  window.myLine.update();
 }
 
 function exportCSVFile(array) {

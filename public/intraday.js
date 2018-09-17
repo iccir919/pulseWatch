@@ -7,6 +7,59 @@ var endTime;
 var timeRange;
 var detailLevel;
 
+var ctx = document.getElementById("myChart").getContext("2d");
+var chartConfig = {
+  type: "bar",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        lineTension: 1,
+        backgroundColor: "transparent",
+        borderColor: "#007bff",
+        borderWidth: 4,
+        pointBackgroundColor: "#007bff",
+        pointRadius: 0,
+        fill: false,
+        data: []
+      }
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "beats per minute"
+          },
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ],
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "time"
+          },
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ]
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false
+    }
+  }
+};
+
 document.addEventListener("DOMContentLoaded", function() {
   access_token = sessionStorage.getItem("access_token");
   user_id = sessionStorage.getItem("user_id_token");
@@ -22,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
       maxDate: new Date()
     });
   });
+
+  window.myBar = new Chart(ctx, chartConfig);
 });
 
 function handleSubmit() {
@@ -136,7 +191,6 @@ var customTooltips = function(tooltip) {
 };
 
 function createInterdayGraph(heartRateData) {
-  console.log(heartRateData);
   var xValues = [];
   var yValues = [];
 
@@ -153,61 +207,10 @@ function createInterdayGraph(heartRateData) {
     }
   });
 
-  var ctx = document.getElementById("myChart");
-  var chartConfig = {
-    type: "bar",
-    data: {
-      labels: xValues,
-      datasets: [
-        {
-          data: yValues,
-          lineTension: 1,
-          backgroundColor: "transparent",
-          borderColor: "#007bff",
-          borderWidth: 4,
-          pointBackgroundColor: "#007bff",
-          pointRadius: 0
-        }
-      ]
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            scaleLabel: {
-              display: true,
-              labelString: "beats per minute"
-            },
-            ticks: {
-              beginAtZero: false
-            }
-          }
-        ],
-        xAxes: [
-          {
-            scaleLabel: {
-              display: true,
-              labelString: "time"
-            },
-            ticks: {
-              beginAtZero: false
-            }
-          }
-        ]
-      },
-      legend: {
-        display: false
-      },
-      tooltips: {
-        enabled: false,
-        mode: "index",
-        intersect: false,
-        custom: customTooltips
-      }
-    }
-  };
-  var myChart = new Chart(ctx, chartConfig);
-  myChart.update(chartConfig);
+  window.myBar.config.data.labels = xValues;
+  window.myBar.config.data.datasets[0].data = yValues;
+
+  window.myBar.update();
 }
 
 function exportCSVFile(array) {
