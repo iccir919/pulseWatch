@@ -21,7 +21,8 @@ var chartConfig = {
         pointBackgroundColor: "#007bff",
         pointRadius: 0,
         fill: false,
-        data: []
+        data: [],
+        spanGaps: false
       }
     ]
   },
