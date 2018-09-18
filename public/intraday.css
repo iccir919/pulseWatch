@@ -1,6 +1,6 @@
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
 
 .navbar-dark .navbar-brand {
@@ -51,4 +51,13 @@ body {
 
 input[type="time"] {
   min-height: 2.5rem;
+}
+
+footer {
+  height: 60px;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
 }
