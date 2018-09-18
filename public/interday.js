@@ -18,7 +18,8 @@ var config = {
         backgroundColor: "transparent",
         borderColor: "#007bff",
         borderWidth: 4,
-        pointBackgroundColor: "#007bff"
+        pointBackgroundColor: "#007bff",
+        spanGaps: false
       }
     ]
   },
@@ -29,7 +30,7 @@ var config = {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: "beats per minute"
+            labelString: "resting heart rate"
           },
           ticks: {
             beginAtZero: false
@@ -109,13 +110,25 @@ function createInterdayGraph(heartRateData) {
   var xValues = [];
   var yValues = [];
 
-  heartRateData.forEach(function(data) {
-    xValues.push(data.dateTime);
-    yValues.push(data.value.restingHeartRate);
-  });
-
-  xValues = xValues.map(function(value) {
-    return moment(value, "YYYY-MM-DD").format("LL");
+  heartRateData.forEach(function(data, idx, arr) {
+    if (
+      idx !== arr.length - 1 &&
+      moment(data.dateTime, "YYYY-MM-DD")
+        .add(1, "d")
+        .isBefore(moment(arr[idx + 1].dateTime, "YYYY-MM-DD"))
+    ) {
+      var currentTime = moment(data.dateTime, "YYYY-MM-DD");
+      while (
+        currentTime.isBefore(moment(arr[idx + 1].dateTime, "YYYY-MM-DD"))
+      ) {
+        xValues.push(currentTime.format("LL"));
+        yValues.push(null);
+        currentTime = currentTime.add(1, "d");
+      }
+    } else {
+      xValues.push(moment(data.dateTime, "YYYY-MM-DD").format("LL"));
+      yValues.push(data.value.restingHeartRate);
+    }
   });
 
   window.myLine.config.data.labels = xValues;

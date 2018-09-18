@@ -195,18 +195,51 @@ function createInterdayGraph(heartRateData) {
   var xValues = [];
   var yValues = [];
 
-  heartRateData.forEach(function(data) {
-    xValues.push(data.time);
-    yValues.push(data.value);
-  });
-
-  xValues = xValues.map(function(value) {
-    if ($("#perMinute").is(":checked")) {
-      return moment(value, "HH-mm-ss").format("LT");
+  heartRateData.forEach(function(data, idx, arr) {
+    if (detailLevel === "1min") {
+      if (
+        idx !== arr.length - 1 &&
+        moment(data.time, "HH-mm-ss")
+          .add(1, "m")
+          .isBefore(moment(arr[idx + 1].time, "HH-mm-ss"))
+      ) {
+        var currentTime = moment(data.time, "HH-mm-ss");
+        while (currentTime.isBefore(moment(arr[idx + 1].time, "HH-mm-ss"))) {
+          xValues.push(currentTime.format("LT"));
+          yValues.push(null);
+          currentTime = currentTime.add(1, "m");
+        }
+      } else {
+        xValues.push(moment(data.time, "HH-mm-ss").format("LT"));
+        yValues.push(data.value);
+      }
     } else {
-      return moment(value, "HH-mm-ss").format("LTS");
+      if (
+        idx !== arr.length - 1 &&
+        moment(data.time, "HH-mm-ss")
+          .add(18, "s")
+          .isBefore(moment(arr[idx + 1].time, "HH-mm-ss"))
+      ) {
+        var currentTime = moment(data.time, "HH-mm-ss");
+        while (currentTime.isBefore(moment(arr[idx + 1].time, "HH-mm-ss"))) {
+          xValues.push(currentTime.format("LTS"));
+          yValues.push(null);
+          currentTime = currentTime.add(18, "s");
+        }
+      } else {
+        xValues.push(moment(data.time, "HH-mm-ss").format("LTS"));
+        yValues.push(data.value);
+      }
     }
   });
+
+  // xValues = xValues.map(function(value) {
+  //   if ($("#perMinute").is(":checked")) {
+  //     return moment(value, "HH-mm-ss").format("LT");
+  //   } else {
+  //     return moment(value, "HH-mm-ss").format("LTS");
+  //   }
+  // });
 
   window.myBar.config.data.labels = xValues;
   window.myBar.config.data.datasets[0].data = yValues;
