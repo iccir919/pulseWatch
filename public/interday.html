@@ -44,24 +44,33 @@
             <h2>Interday heart rate data</h2>
             <p class="lead">Visualize and export your Fitbit resting heart rate for any time period!</p>
         </div>
-
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-md-6">
                 <h4 class="mb-3">Select a date range:</h4>
                 <form>
                     <div class="form-group">
                         <input class="form-control form-control-lg" name="daterange" />
                     </div>
                 </form>
-                <hr class="mb-4">
-                <a id="download-link">
+            </div>
+            <div class="col-md-6">
+                <a id="download-link" class="my-4">
                     <button id="download_button" type="button" class="btn btn-success btn-lg btn-block">
-                        Download data to .csv
+                        Download resting data to .csv
                     </button>
                 </a>
             </div>
-            <div class="col-lg-8">
-                <canvas class="my-4" id="myChart" width="900" height="480"></canvas>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="restingChart"></canvas>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="zonesChart"></canvas>
+
             </div>
         </div>
     </div>

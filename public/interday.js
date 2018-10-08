@@ -1,48 +1,29 @@
 var access_token;
 var user_id;
 
-var userHeartRateData;
+var startDate = moment().subtract(7, "day");
+var endDate = moment();
 
-var startDate;
-var endDate;
+var restingData = [];
+var dateLabels = [];
 
-var ctx = document.getElementById("myChart");
-var config = {
-  type: "line",
-  data: {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        lineTension: 0,
-        backgroundColor: "transparent",
-        borderColor: "#007bff",
-        borderWidth: 4,
-        pointBackgroundColor: "#007bff",
-        spanGaps: false
-      }
-    ]
-  },
-  options: {
-    scales: {
-      yAxes: [
-        {
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: "resting heart rate"
-          },
-          ticks: {
-            beginAtZero: false
-          }
-        }
-      ]
-    },
-    legend: {
-      display: false
-    }
-  }
-};
+window.chartColors = [
+  "rgb(75, 192, 192)",
+  "rgb(255, 205, 86)",
+  "rgb(255, 159, 64)",
+  "rgb(255, 99, 132)",
+  "rgb(54, 162, 235)",
+  "rgb(153, 102, 255)",
+  "rgb(201, 203, 207)"
+];
+
+for (var i = 7; i >= 0; i--) {
+  dateLabels.push(
+    moment()
+      .subtract(i, "day")
+      .format("MM-DD-YYYY")
+  );
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   access_token = sessionStorage.getItem("access_token");
@@ -55,11 +36,11 @@ document.addEventListener("DOMContentLoaded", function() {
   $(function() {
     $('input[name="daterange"]').daterangepicker(
       {
+        startDate: startDate,
+        endDate: endDate,
         maxDate: new Date()
       },
       function(start, end, label) {
-        startDate = start.format("YYYY-MM-DD");
-        endDate = end.format("YYYY-MM-DD");
         getUserHeartRateData(
           end.format("YYYY-MM-DD"),
           start.format("YYYY-MM-DD")
@@ -67,8 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     );
   });
-
-  window.myLine = new Chart(ctx, config);
 });
 
 function getUserHeartRateData(from, to) {
@@ -83,14 +62,11 @@ function getUserHeartRateData(from, to) {
       return heartRateData.json();
     })
     .then(function(heartRateData) {
-      userHeartRateData = heartRateData["activities-heart"];
+      heartRateData = heartRateData["activities-heart"];
 
-      exportCSVFile(userHeartRateData);
+      exportCSVFile(heartRateData);
 
-      var dataWithRestingRate = userHeartRateData.filter(function(dailyData) {
-        return dailyData.value.restingHeartRate;
-      });
-      createInterdayGraph(dataWithRestingRate);
+      processDataForCharts(heartRateData);
     });
 }
 
@@ -104,37 +80,6 @@ function createFitbitRequest(from, to) {
     to +
     ".json"
   );
-}
-
-function createInterdayGraph(heartRateData) {
-  var xValues = [];
-  var yValues = [];
-
-  heartRateData.forEach(function(data, idx, arr) {
-    if (
-      idx !== arr.length - 1 &&
-      moment(data.dateTime, "YYYY-MM-DD")
-        .add(1, "d")
-        .isBefore(moment(arr[idx + 1].dateTime, "YYYY-MM-DD"))
-    ) {
-      var currentTime = moment(data.dateTime, "YYYY-MM-DD");
-      while (
-        currentTime.isBefore(moment(arr[idx + 1].dateTime, "YYYY-MM-DD"))
-      ) {
-        xValues.push(currentTime.format("LL"));
-        yValues.push(null);
-        currentTime = currentTime.add(1, "d");
-      }
-    } else {
-      xValues.push(moment(data.dateTime, "YYYY-MM-DD").format("LL"));
-      yValues.push(data.value.restingHeartRate);
-    }
-  });
-
-  window.myLine.config.data.labels = xValues;
-  window.myLine.config.data.datasets[0].data = yValues;
-
-  window.myLine.update();
 }
 
 function exportCSVFile(array) {
@@ -165,3 +110,160 @@ function convertToCSV(data) {
   );
   return string;
 }
+
+var restingConfig = {
+  type: "line",
+  data: {
+    labels: dateLabels,
+    datasets: [
+      {
+        label: "resting heart rate",
+        backgroundColor: window.chartColors[3],
+        borderColor: window.chartColors[3],
+        data: [],
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Chart for resting heart rate"
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false
+    },
+    hover: {
+      mode: "nearest",
+      intersect: true
+    },
+    scales: {
+      xAxes: [
+        {
+          display: true
+        }
+      ],
+      yAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "resting heart rate"
+          }
+        }
+      ]
+    }
+  }
+};
+
+var zonesData = {
+  labels: dateLabels,
+  datasets: []
+};
+
+var zonesConfig = {
+  type: "bar",
+  data: zonesData,
+  options: {
+    title: {
+      display: true,
+      text: "Chart for heart rate zones"
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false
+    },
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          stacked: true
+        }
+      ],
+      yAxes: [
+        {
+          stacked: true,
+          scaleLabel: {
+            display: true,
+            labelString: "minutes in heart rate zone"
+          }
+        }
+      ]
+    }
+  }
+};
+
+function processDataForCharts(data) {
+  var start = moment(data[0].dateTime, "YYYY-MM-DD");
+  var end = moment(data[data.length - 1].dateTime, "YYYY-MM-DD");
+  var current = start;
+  var newDateLabels = [];
+  var newRestingData = [];
+
+  while (current.isSameOrBefore(end)) {
+    newDateLabels.push(current.format("MM-DD-YYYY"));
+    current = current.add(1, "day");
+  }
+
+  var newZonesData = {
+    labels: newDateLabels,
+    datasets: []
+  };
+
+  if (data[0].value.customHeartRateZones.length > 0) {
+  } else {
+    for (var j = 0; j < data[0].value.heartRateZones.length; j++) {
+      newZonesData.datasets.push({
+        label: data[0].value.heartRateZones[j].name,
+        backgroundColor: window.chartColors[j],
+        data: []
+      });
+    }
+  }
+
+  for (var m = 0; m < data.length; m++) {
+    newRestingData.push({
+      x: moment(data[m].dateTime).format("MM-DD-YYYY"),
+      y: data[m].value.restingHeartRate
+    });
+
+    if (data[0].value.customHeartRateZones.length > 0) {
+    } else {
+      for (var j = 0; j < data[0].value.heartRateZones.length; j++) {
+        newZonesData.datasets[j].data.push({
+          x: data[m].timeDate,
+          y: data[m].value.heartRateZones[j].minutes
+        });
+      }
+    }
+  }
+
+  var showingDatasets = newZonesData.datasets.splice(1);
+  newZonesData.datasets = showingDatasets;
+
+  dateLabels = newDateLabels;
+  restingData = newRestingData;
+
+  window.restingChart.config.data.labels = dateLabels;
+  window.restingChart.config.data.datasets[0].data = restingData;
+  window.restingChart.update();
+
+  window.zonesChart.config.data.labels = dateLabels;
+  window.zonesChart.config.data = newZonesData;
+  window.zonesChart.update();
+}
+
+window.onload = function() {
+  var restingCtx = document.getElementById("restingChart").getContext("2d");
+  window.restingChart = new Chart(restingCtx, restingConfig);
+
+  var zonesCtx = document.getElementById("zonesChart").getContext("2d");
+  window.zonesChart = new Chart(zonesCtx, zonesConfig);
+
+  getUserHeartRateData(
+    startDate.format("YYYY-MM-DD"),
+    endDate.format("YYYY-MM-DD")
+  );
+};
