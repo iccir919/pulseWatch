@@ -65,7 +65,7 @@ function getUserHeartRateData(from, to) {
 
       exportCSVFile(heartRateData);
 
-      processDataForCharts(heartRateData);
+      processData(heartRateData);
     });
 }
 
@@ -110,76 +110,34 @@ function convertToCSV(data) {
   return string;
 }
 
-var chartData = {
-  labels: dateLabels,
-  datasets: []
-};
-
-var zonesData = {
-  labels: dateLabels,
-  datasets: []
-};
-
-var restingConfig = {
+var restingData = {
   type: "line",
+  yAxisID: "y-axis-1",
+  label: "Resting heart rate",
+  borderColor: window.chartColors[3],
+  borderWidth: 2,
+  fill: false,
+  data: []
+};
+
+var zonesDatasets = [];
+
+var chartConfig = {
+  type: "bar",
   data: {
     labels: dateLabels,
-    datasets: [
-      {
-        label: "resting heart rate",
-        backgroundColor: window.chartColors[3],
-        borderColor: window.chartColors[3],
-        data: [],
-        fill: false
-      }
-    ]
+    datasets: []
   },
   options: {
     responsive: true,
     title: {
       display: true,
-      text: "Chart for resting heart rate"
+      text: "Combo Bar Line Chart"
     },
     tooltips: {
       mode: "index",
-      intersect: false
-    },
-    hover: {
-      mode: "nearest",
       intersect: true
     },
-    scales: {
-      xAxes: [
-        {
-          display: true
-        }
-      ],
-      yAxes: [
-        {
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: "resting heart rate"
-          }
-        }
-      ]
-    }
-  }
-};
-
-var zonesConfig = {
-  type: "bar",
-  data: zonesData,
-  options: {
-    title: {
-      display: true,
-      text: "Chart for heart rate zones"
-    },
-    tooltips: {
-      mode: "index",
-      intersect: false
-    },
-    responsive: true,
     scales: {
       xAxes: [
         {
@@ -188,115 +146,70 @@ var zonesConfig = {
       ],
       yAxes: [
         {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "resting heart rate"
+          },
+          position: "left",
+          id: "y-axis-1"
+        },
+        {
           stacked: true,
+          display: true,
           scaleLabel: {
             display: true,
             labelString: "minutes in heart rate zone"
-          }
+          },
+          position: "right",
+          id: "y-axis-2"
         }
       ]
     }
   }
 };
 
-var comboConfig = {
-  type: "bar",
-  data: chartData,
-  options: {
-    responsive: true,
-    title: {
-      display: true,
-      text: "Chart.js Combo Bar Line Chart"
-    },
-    tooltips: {
-      mode: "index",
-      intersect: true
-    }
-  }
-};
+function processData(data) {
+  console.log(data);
+  restingData.data = [];
+  zonesDatasets = [];
+  dateLabels = [];
 
-function processDataForCharts(data) {
-  var start = moment(data[0].dateTime, "YYYY-MM-DD");
-  var end = moment(data[data.length - 1].dateTime, "YYYY-MM-DD");
-  var current = start;
-  var newDateLabels = [];
-  var newRestingData = [];
-
-  while (current.isSameOrBefore(end)) {
-    newDateLabels.push(current.format("MM-DD-YYYY"));
-    current = current.add(1, "day");
-  }
-
-  var newZonesData = {
-    labels: newDateLabels,
-    datasets: []
-  };
-
-  if (data[0].value.customHeartRateZones.length > 0) {
-  } else {
-    for (var j = 0; j < data[0].value.heartRateZones.length; j++) {
-      newZonesData.datasets.push({
-        label: data[0].value.heartRateZones[j].name,
-        backgroundColor: window.chartColors[j],
-        data: []
-      });
-    }
+  for (var j = 0; j < data[0].value.heartRateZones.length; j++) {
+    zonesDatasets.push({
+      yAxisID: "y-axis-2",
+      type: "bar",
+      label: data[0].value.heartRateZones[j].name,
+      backgroundColor: window.chartColors[j],
+      data: [],
+      borderColor: "white",
+      borderWidth: 2
+    });
   }
 
   for (var m = 0; m < data.length; m++) {
-    newRestingData.push({
-      x: moment(data[m].dateTime).format("MM-DD-YYYY"),
-      y: data[m].value.restingHeartRate
-    });
+    restingData.data.push(data[m].value.restingHeartRate);
 
-    if (data[0].value.customHeartRateZones.length > 0) {
-    } else {
-      for (var j = 0; j < data[0].value.heartRateZones.length; j++) {
-        newZonesData.datasets[j].data.push({
-          x: data[m].timeDate,
-          y: data[m].value.heartRateZones[j].minutes
-        });
-      }
+    for (var k = 0; k < zonesDatasets.length; k++) {
+      zonesDatasets[k].data.push({
+        x: data[m].dateTime,
+        y: data[m].value.heartRateZones[k].minutes
+      });
     }
+
+    dateLabels.push(data[m].dateTime);
   }
 
-  var newRestingDataset = [
-    {
-      label: "resting heart rate",
-      backgroundColor: window.chartColors[3],
-      borderColor: window.chartColors[3],
-      data: newRestingData,
-      fill: false
-    }
-  ];
-
-  newZonesData.datasets.shift();
-  dateLabels = newDateLabels;
-
-  window.restingChart.config.data.labels = dateLabels;
-  window.restingChart.config.data.datasets[0].data = newRestingData;
-  window.restingChart.update();
-
-  window.zonesChart.config.data.labels = dateLabels;
-  window.zonesChart.config.data = newZonesData;
-  window.zonesChart.update();
-
-  window.comboChart.config.data.labels = dateLabels;
-  window.comboChart.config.data.datasets = newRestingDataset.concat(
-    newZonesData.datasets
-  );
-  window.comboChart.update();
+  zonesDatasets.shift();
+  window.chart.config.data.datasets = [restingData].concat(zonesDatasets);
+  window.chart.config.data.labels = dateLabels;
+  window.chart.update();
+  console.log(window.chart);
 }
 
 window.onload = function() {
-  var restingCtx = document.getElementById("restingChart").getContext("2d");
-  window.restingChart = new Chart(restingCtx, restingConfig);
-
-  var zonesCtx = document.getElementById("zonesChart").getContext("2d");
-  window.zonesChart = new Chart(zonesCtx, zonesConfig);
-
-  var comboCtx = document.getElementById("comboChart").getContext("2d");
-  window.comboChart = new Chart(comboCtx, comboConfig);
+  var chartCtx = document.getElementById("interdayChart").getContext("2d");
+  window.chart = new Chart(chartCtx, chartConfig);
 
   getUserHeartRateData(
     startDate.format("YYYY-MM-DD"),
