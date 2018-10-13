@@ -7,7 +7,7 @@ var endTime;
 var timeRange;
 var detailLevel;
 
-var ctx = document.getElementById("myChart").getContext("2d");
+var ctx = document.getElementById("intradayChart").getContext("2d");
 var chartConfig = {
   type: "bar",
   data: {
@@ -27,6 +27,8 @@ var chartConfig = {
     ]
   },
   options: {
+    maintainAspectRatio: false,
+
     scales: {
       yAxes: [
         {
@@ -56,7 +58,18 @@ var chartConfig = {
     },
     tooltips: {
       mode: "index",
-      intersect: false
+      intersect: false,
+      callbacks: {
+        label: function(tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+          if (label) {
+            label += ": ";
+          }
+          label += tooltipItem.yLabel + " bpm";
+          return label;
+        }
+      }
     }
   }
 };
@@ -77,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  window.myBar = new Chart(ctx, chartConfig);
+  window.intradayChart = new Chart(ctx, chartConfig);
 });
 
 function handleSubmit() {
@@ -233,18 +246,10 @@ function createInterdayGraph(heartRateData) {
     }
   });
 
-  // xValues = xValues.map(function(value) {
-  //   if ($("#perMinute").is(":checked")) {
-  //     return moment(value, "HH-mm-ss").format("LT");
-  //   } else {
-  //     return moment(value, "HH-mm-ss").format("LTS");
-  //   }
-  // });
+  window.intradayChart.config.data.labels = xValues;
+  window.intradayChart.config.data.datasets[0].data = yValues;
 
-  window.myBar.config.data.labels = xValues;
-  window.myBar.config.data.datasets[0].data = yValues;
-
-  window.myBar.update();
+  window.intradayChart.update();
 }
 
 function exportCSVFile(array) {

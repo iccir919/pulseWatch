@@ -212,7 +212,7 @@ function processData(data) {
       label: data[0].value.heartRateZones[j].name,
       backgroundColor: window.chartColors[j],
       data: [],
-      borderColor: "white",
+      borderColor: window.chartColors[j],
       borderWidth: 2
     });
   }
