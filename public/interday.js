@@ -22,6 +22,8 @@ for (var i = 7; i >= 0; i--) {
       .subtract(i, "day")
       .format("MM-DD-YYYY")
   );
+
+  dateLabels = dateLabels.map(date => moment(date).format("ll"));
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -114,38 +116,66 @@ var restingData = {
   type: "line",
   yAxisID: "y-axis-1",
   label: "Resting heart rate",
-  borderColor: window.chartColors[3],
-  borderWidth: 2,
+  borderColor: window.chartColors[4],
+  backgroundColor: window.chartColors[4],
+  borderWidth: 3,
   fill: false,
   data: []
 };
 
 var zonesDatasets = [];
 
-var chartConfig = {
+var comboConfig = {
   type: "bar",
   data: {
     labels: dateLabels,
     datasets: []
   },
   options: {
+    maintainAspectRatio: false,
     responsive: true,
     title: {
       display: true,
-      text: "Combo Bar Line Chart"
+      text: "Resting Heart Rate and Heart Rate Zones Combo Chart"
     },
     tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+          if (label) {
+            label += ": ";
+          }
+          label += tooltipItem.yLabel;
+          if (tooltipItem.datasetIndex === 0) {
+            label += " bpm";
+          } else {
+            label += " minutes";
+          }
+          return label;
+        }
+      },
       mode: "index",
       intersect: true
     },
     scales: {
       xAxes: [
         {
+          gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false
+          },
           stacked: true
         }
       ],
       yAxes: [
         {
+          gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false
+          },
           display: true,
           scaleLabel: {
             display: true,
@@ -200,16 +230,17 @@ function processData(data) {
     dateLabels.push(data[m].dateTime);
   }
 
+  dateLabels = dateLabels.map(date => moment(date).format("ll"));
   zonesDatasets.shift();
-  window.chart.config.data.datasets = [restingData].concat(zonesDatasets);
-  window.chart.config.data.labels = dateLabels;
-  window.chart.update();
-  console.log(window.chart);
+
+  window.comboChart.config.data.datasets = [restingData].concat(zonesDatasets);
+  window.comboChart.config.data.labels = dateLabels;
+  window.comboChart.update();
 }
 
 window.onload = function() {
-  var chartCtx = document.getElementById("interdayChart").getContext("2d");
-  window.chart = new Chart(chartCtx, chartConfig);
+  var comboCtx = document.getElementById("interdayChart").getContext("2d");
+  window.comboChart = new Chart(comboCtx, comboConfig);
 
   getUserHeartRateData(
     startDate.format("YYYY-MM-DD"),

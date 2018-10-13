@@ -37,3 +37,10 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 90vh;
+  width: 80vw;
+}
