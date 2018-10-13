@@ -4,7 +4,6 @@ var user_id;
 var startDate = moment().subtract(7, "day");
 var endDate = moment();
 
-var restingData = [];
 var dateLabels = [];
 
 window.chartColors = [
@@ -111,6 +110,16 @@ function convertToCSV(data) {
   return string;
 }
 
+var chartData = {
+  labels: dateLabels,
+  datasets: []
+};
+
+var zonesData = {
+  labels: dateLabels,
+  datasets: []
+};
+
 var restingConfig = {
   type: "line",
   data: {
@@ -158,11 +167,6 @@ var restingConfig = {
   }
 };
 
-var zonesData = {
-  labels: dateLabels,
-  datasets: []
-};
-
 var zonesConfig = {
   type: "bar",
   data: zonesData,
@@ -191,6 +195,22 @@ var zonesConfig = {
           }
         }
       ]
+    }
+  }
+};
+
+var comboConfig = {
+  type: "bar",
+  data: chartData,
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Chart.js Combo Bar Line Chart"
+    },
+    tooltips: {
+      mode: "index",
+      intersect: true
     }
   }
 };
@@ -240,19 +260,32 @@ function processDataForCharts(data) {
     }
   }
 
-  var showingDatasets = newZonesData.datasets.splice(1);
-  newZonesData.datasets = showingDatasets;
+  var newRestingDataset = [
+    {
+      label: "resting heart rate",
+      backgroundColor: window.chartColors[3],
+      borderColor: window.chartColors[3],
+      data: newRestingData,
+      fill: false
+    }
+  ];
 
+  newZonesData.datasets.shift();
   dateLabels = newDateLabels;
-  restingData = newRestingData;
 
   window.restingChart.config.data.labels = dateLabels;
-  window.restingChart.config.data.datasets[0].data = restingData;
+  window.restingChart.config.data.datasets[0].data = newRestingData;
   window.restingChart.update();
 
   window.zonesChart.config.data.labels = dateLabels;
   window.zonesChart.config.data = newZonesData;
   window.zonesChart.update();
+
+  window.comboChart.config.data.labels = dateLabels;
+  window.comboChart.config.data.datasets = newRestingDataset.concat(
+    newZonesData.datasets
+  );
+  window.comboChart.update();
 }
 
 window.onload = function() {
@@ -261,6 +294,9 @@ window.onload = function() {
 
   var zonesCtx = document.getElementById("zonesChart").getContext("2d");
   window.zonesChart = new Chart(zonesCtx, zonesConfig);
+
+  var comboCtx = document.getElementById("comboChart").getContext("2d");
+  window.comboChart = new Chart(comboCtx, comboConfig);
 
   getUserHeartRateData(
     startDate.format("YYYY-MM-DD"),
