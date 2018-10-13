@@ -126,6 +126,7 @@ var restingConfig = {
     ]
   },
   options: {
+    maintainAspectRatio: false,
     responsive: true,
     title: {
       display: true,
@@ -167,6 +168,7 @@ var zonesConfig = {
   type: "bar",
   data: zonesData,
   options: {
+    maintainAspectRatio: false,
     title: {
       display: true,
       text: "Chart for heart rate zones"
