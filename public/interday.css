@@ -41,6 +41,6 @@ body {
 .chart-container {
   position: relative;
   margin: auto;
-  height: 100vh;
+  height: 90vh;
   width: 80vw;
 }
