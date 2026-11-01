@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Node (from running the local Express server)
+node_modules/
+npm-debug.log*
+
+# Editors
+.vscode/
