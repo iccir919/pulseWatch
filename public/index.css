@@ -4,36 +4,93 @@ body {
 }
 
 body {
-  display: -ms-flexbox;
-  display: -webkit-box;
   display: flex;
-  -ms-flex-align: center;
-  -ms-flex-pack: center;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
   justify-content: center;
+  margin: 0;
+  padding: 3rem 1rem;
+  background: #fafafa;
+  color: #212529;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /*
- * Cover
+ * Retired page
  */
-.cover {
-  padding: 0 1.5rem;
+.retired-page {
+  width: 100%;
+  max-width: 38rem;
+  text-align: center;
 }
 
-h1 {
+.retired-title {
   color: #f54786;
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin: 0 0 0.5rem;
 }
 
-/*
- * Footer
- */
-.author-text {
-  color: rgba(255, 255, 255, 0.75);
+.retired-tagline {
+  color: #6c757d;
+  font-size: 1.15rem;
+  margin-bottom: 2.5rem;
 }
 
-.author-text a {
-  color: white;
+.retired-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+  line-height: 1.6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.retired-card-heading {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.retired-card p:last-child {
+  margin-bottom: 0;
+}
+
+.retired-card a,
+.retired-footer a {
+  color: #212529;
+  text-decoration: underline;
+}
+
+.retired-card a:hover,
+.retired-footer a:hover {
+  color: #000000;
+}
+
+.retired-button {
+  display: inline-block;
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: #212529;
+  border: none;
+  border-radius: 0.5rem;
   text-decoration: none;
+  transition: background 0.15s;
+}
+
+.retired-button:hover,
+.retired-button:focus {
+  color: #ffffff;
+  background: #3d434a;
+  text-decoration: none;
+}
+
+.retired-footer {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0;
 }
